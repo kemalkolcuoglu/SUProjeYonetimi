@@ -1,0 +1,66 @@
+﻿@model SUTFProjeYonetimi.Models.ProjeOneri
+@{
+	ViewBag.Title = "Proje Önerisi Detay";
+}
+
+<div id="ribbon">
+	<ol class="breadcrumb">
+		<li>Öğrenci</li>
+		<li>Proje Öneri Detayları</li>
+	</ol>
+</div>
+<div id="content">
+	<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-bottom:25px">
+		<div class="jarviswidget jarviswidget-color-darken" id="wid-id-1" data-widget-editbutton="false" data-widget-custombutton="false">
+			<header>
+				<span class="widget-icon"> <i class="fa fa-file"></i> </span>
+				<h2>Proje Öneri Detay Formu</h2>
+			</header>
+			<div>
+				<div class="jarviswidget-editbox"></div>
+				<div class="widget-body container-fluid">
+					<div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+						<h4>Proje Öneri Detayları</h4>
+						<hr />
+						<div class="table-responsive">
+							<table class="table  table-striped table-bordered">
+								<tbody>
+									<tr>
+										<td><b>Proje Adı</b></td>
+										<td>@Model.ProjeAdi</td>
+									</tr>
+									<tr>
+										<td><b>Proje Konusu ve Amacı</b></td>
+										<td>@Model.ProjeKonusuAmaci</td>
+									</tr>
+									<tr>
+										<td><b>Maliyet Araştırması</b></td>
+										<td>@Model.MaliyetArastirmasi</td>
+									</tr>
+									<tr>
+										<td><b>Çevresel Etkileri</b></td>
+										<td>@Model.CevreselEtkileri</td>
+									</tr>
+									<tr>
+										<td><b>Etik Sakıncaları</b></td>
+										<td>@Model.EtikSakincalari</td>
+									</tr>
+									<tr>
+										<td><b>Yararlanılan Kaynaklar</b></td>
+										<td>@Model.YararlanilanKaynaklar</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+							<hr />
+							@Html.ActionLink("Anasayfaya Dön", "Anasayfa", "Panel", null, new { @class = "btn btn-primary btn-block" })
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</article>
+</div>
+

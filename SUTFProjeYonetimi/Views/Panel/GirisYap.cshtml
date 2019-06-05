@@ -1,0 +1,102 @@
+﻿@model SUTFProjeYonetimi.Models.EkModel.KullaniciGiris
+@{
+	ViewBag.Title = "Giriş Yap";
+	Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr" id="extr-page">
+<head>
+	<meta charset="utf-8">
+	<title>SÜ-TF Proje Yönetim Otomasyonu | Kullanıcı Girişi </title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<link rel="stylesheet" type="text/css" media="screen" href="~/Assets/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" media="screen" href="~/Assets/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" media="screen" href="~/Assets/css/smartadmin-production-plugins.min.css">
+	<link rel="stylesheet" type="text/css" media="screen" href="~/Assets/css/smartadmin-production.min.css">
+	<link rel="stylesheet" type="text/css" media="screen" href="~/Assets/css/smartadmin-skins.min.css">
+	<link rel="stylesheet" type="text/css" media="screen" href="~/Assets/css/demo.min.css">
+	<link rel="shortcut icon" href="~/Assets/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="~/Assets/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
+</head>
+
+<body class="animated fadeInDown">
+
+	<header id="header">
+
+		<div id="logo-group">
+			<span id="logo"> <img src="~/Assets/img/logo.png" alt="SÜ-TF"></span>
+		</div>
+	</header>
+	<div id="main" role="main">
+		<div id="content" class="container">
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-7 col-lg-8 hidden-xs hidden-sm">
+					<h1 class="txt-color-red login-header-big">PROJE YÖNETİM OTOMASYONU</h1>
+					<div class="hero">
+						<div class="pull-left login-desc-box-l">
+							<h4 class="paragraph-header">Selçuk Üniversitesi Teknoloji Fakültesi eğitim planı kapsamında verilmekte olan proje derslerinin yönetimi ve gözlenimi için geliştirilmiştir. </h4>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
+					<div class="well no-padding">
+						@using (Html.BeginForm("GirisYap", "Panel", FormMethod.Post, new { @class = "smart-form client-form" }))
+						{
+							@Html.AntiForgeryToken()
+							<header>
+								Giriş Yap
+							</header>
+							<fieldset>
+								@if (ViewBag.Hata != null)
+								{
+									<div class="alert alert-danger">
+										<ul>
+											@foreach (var item in ViewBag.Hata)
+											{
+												<li>@item</li>
+											}
+										</ul>
+									</div>
+								}
+								@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+								<section>
+									@Html.LabelFor(model => model.OgrenciNo, htmlAttributes: new { @class = "control-label" })
+									<label class="input">
+										<i class="icon-append fa fa-user"></i>
+										@Html.EditorFor(model => model.OgrenciNo, new { htmlAttributes = new { @class = "form-control" } })
+										@Html.ValidationMessageFor(model => model.OgrenciNo, "", new { @class = "text-danger" })
+									</label>
+								</section>
+								<section>
+									@Html.LabelFor(model => model.Sifre, htmlAttributes: new { @class = "control-label" })
+									<label class="input">
+										<i class="icon-append fa fa-lock"></i>
+										@Html.EditorFor(model => model.Sifre, new { @class = "form-control", type = "password" })
+										@Html.ValidationMessageFor(model => model.Sifre, "", new { @class = "text-danger" })
+									</label>
+								</section>
+							</fieldset>
+							<footer><button type="submit" class="btn btn-primary">Giriş Yap</button></footer>
+						}
+					</div>
+					<h6 class="text-center"><a href="http://kemalkolcuoglu.site">Kemal KOLCUOĞLU</a> © 2019</h6>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="~/Assets/js/plugin/pace/pace.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script>if (!window.jQuery) { document.write('<script src="~/Assets/js/libs/jquery-3.2.1.min.js"><\/script>');}</script>
+	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+	<script>if (!window.jQuery.ui) { document.write('<script src="~/Assets/js/libs/jquery-ui.min.js"><\/script>');}</script>
+	<script src="~/Assets/js/app.config.js"></script>
+	<script src="~/Assets/js/bootstrap/bootstrap.min.js"></script>
+	<script src="~/Assets/js/plugin/jquery-validate/jquery.validate.min.js"></script>
+	<script src="~/Assets/js/app.min.js"></script>
+</body>
+</html>
