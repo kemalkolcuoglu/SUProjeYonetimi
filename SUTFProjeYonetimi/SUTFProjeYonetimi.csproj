@@ -116,9 +116,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\ConfigHelper.cs" />
-    <Compile Include="Helpers\HtmlHelperExtensions.cs" />
     <Compile Include="Helpers\MailHelper.cs" />
-    <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Helpers\StringExtensions.cs" />
     <Compile Include="Models\Bolum.cs" />
     <Compile Include="Models\Akademisyen.cs" />
@@ -167,6 +165,10 @@
     <Content Include="Views\Ogrenci\ProjeOnerisiSil.cshtml" />
     <Content Include="Views\Akademisyen\Sil.cshtml" />
     <Content Include="Views\Panel\GirisYap.cshtml" />
+    <Content Include="Views\Shared\_Head.cshtml" />
+    <Content Include="Views\Shared\_Script.cshtml" />
+    <Content Include="Views\Shared\_NavAdmin.cshtml" />
+    <Content Include="Views\Shared\_NavOgrenci.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
