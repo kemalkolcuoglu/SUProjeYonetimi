@@ -71,3 +71,5 @@ C:\Users\kemal\source\repos\SUTFProjeYonetimi\SUTFProjeYonetimi\obj\Debug\SUTFPr
 C:\Users\kemal\source\repos\SUTFProjeYonetimi\SUTFProjeYonetimi\obj\Debug\SUTFProjeYonetimi.csproj.CopyComplete
 C:\Users\kemal\source\repos\SUTFProjeYonetimi\SUTFProjeYonetimi\obj\Debug\SUTFProjeYonetimi.dll
 C:\Users\kemal\source\repos\SUTFProjeYonetimi\SUTFProjeYonetimi\obj\Debug\SUTFProjeYonetimi.pdb
+C:\Users\kemal\source\repos\SUTFProjeYonetimi\SUTFProjeYonetimi\bin\FakeData.dll
+C:\Users\kemal\source\repos\SUTFProjeYonetimi\SUTFProjeYonetimi\bin\FakeData.pdb

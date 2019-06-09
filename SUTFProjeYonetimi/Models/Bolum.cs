@@ -8,6 +8,9 @@ namespace SUTFProjeYonetimi.Models
 		[Key]
 		public int ID { get; set; }
 
+		[Required, DisplayName("Fakülte")]
+		public int FakulteID { get; set; }
+
 		[Required, MaxLength(50), DisplayName("Bölüm Adı")]
 		public string Ad { get; set; }
 

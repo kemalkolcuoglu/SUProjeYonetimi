@@ -259,6 +259,7 @@ namespace SUTFProjeYonetimi.Controllers
 		public ActionResult DegerlendirmeListe()
 		{
 			// TODO : Değerlendirme Listesi Yapılacak
+
 			return View();
 		}
 

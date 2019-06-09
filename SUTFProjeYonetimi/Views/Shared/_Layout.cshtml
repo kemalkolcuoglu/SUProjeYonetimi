@@ -9,22 +9,6 @@
 		<div id="logo-group">
 			<span id="logo"> <img src="~/Assets/img/logo.png"></span>
 		</div>
-		<div class="project-context hidden-xs">
-			<span class="label">Projects:</span>
-			<span class="project-selector dropdown-toggle" data-toggle="dropdown">Recent projects <i class="fa fa-angle-down"></i></span>
-			<ul class="dropdown-menu">
-				<li>
-					<a href="javascript:void(0);">Online e-merchant management system - attaching integration with the iOS</a>
-				</li>
-				<li>
-					<a href="javascript:void(0);">Notes on pipeline upgradee</a>
-				</li>
-				<li>
-					<a href="javascript:void(0);">Assesment Report for merchant account</a>
-				</li>
-				<li class="divider"></li>
-			</ul>
-		</div>
 		<div class="pull-right">
 			<div id="hide-menu" class="btn-header pull-right">
 				<span> <a href="javascript:void(0);" data-action="toggleMenu" title="Collapse Menu"><i class="fa fa-reorder"></i></a> </span>
@@ -59,15 +43,37 @@
 				</a>
 			</span>
 		</div>
-		@switch (SUTFProjeYonetimi.Models.EkModel.AnlikOturum.Kullanici.Yetki)
-		{
-			case (int)SUTFProjeYonetimi.Models.Enum.Yetkilendirme.SystemAdmin: Html.Partial("_NavAdmin"); break;
-			case (int)SUTFProjeYonetimi.Models.Enum.Yetkilendirme.Dekan: Html.Partial("_NavDekan"); break;
-			case (int)SUTFProjeYonetimi.Models.Enum.Yetkilendirme.BolumBaskani: Html.Partial("_NavBolumBaskani"); break;
-			case (int)SUTFProjeYonetimi.Models.Enum.Yetkilendirme.Danisman: Html.Partial("_NavDanisman"); break;
-			case (int)SUTFProjeYonetimi.Models.Enum.Yetkilendirme.Ogrenci: Html.Partial("_NavOgrenci"); break;
-			default: break;
-		}
+		<nav>
+			<ul>
+				@if (SUTFProjeYonetimi.Models.EkModel.AnlikOturum.Kullanici.Yetki == (int)SUTFProjeYonetimi.Models.Enum.Yetkilendirme.SystemAdmin)
+				{
+
+					<li><a href="~/Panel/Anasayfa" title="Anasayfa"><i class="fa fa-lg fa-fw fa-home"></i>Anasayfa</a></li>
+					<li><a href="~/Proje/Liste" title="Projeler"><i class="fa fa-lg fa-fw fa-cubes"></i>Projeler</a></li>
+					<li><a href="~/Proje/OneriListesi" title="Proje Önerileri"><i class="fa fa-lg fa-fw fa-comment"></i>Proje Önerileri</a></li>
+					<li><a href="~/Ogrenci/Liste" title="Öğrenciler"><i class="fa fa-lg fa-fw fa-users"></i>Öğrenciler</a></li>
+					<li><a href="~/Akademisyen/Liste" title="Akademisyenler"><i class="fa fa-lg fa-fw fa-graduation-cap"></i>Akademisyenler</a></li>
+				}
+				else if (SUTFProjeYonetimi.Models.EkModel.AnlikOturum.Kullanici.Yetki == (int)SUTFProjeYonetimi.Models.Enum.Yetkilendirme.Dekan)
+				{
+
+				}
+				else if (SUTFProjeYonetimi.Models.EkModel.AnlikOturum.Kullanici.Yetki == (int)SUTFProjeYonetimi.Models.Enum.Yetkilendirme.BolumBaskani)
+				{
+
+				}
+				else if (SUTFProjeYonetimi.Models.EkModel.AnlikOturum.Kullanici.Yetki == (int)SUTFProjeYonetimi.Models.Enum.Yetkilendirme.Danisman)
+				{
+
+				}
+				else if (SUTFProjeYonetimi.Models.EkModel.AnlikOturum.Kullanici.Yetki == (int)SUTFProjeYonetimi.Models.Enum.Yetkilendirme.Ogrenci)
+				{
+					<li><a href="~/Panel/Anasayfa" title="Anasayfa"><i class="fa fa-lg fa-fw fa-home"></i>Anasayfa</a></li>
+					<li><a href="~/Ogrenci/Proje" title="Proje"><i class="fa fa-lg fa-fw fa-cubes"></i>Proje</a></li>
+					<li><a href="~/Ogrenci/DanismanlikDegisiklikTalebi" title="Danışmanlık Değişiklik Talebi"><i class="fa fa-lg fa-fw fa-user"></i>Danışmanlık Değişiklik Talebi</a></li>
+				}
+			</ul>
+		</nav>
 		<span class="minifyme" data-action="minifyMenu">
 			<i class="fa fa-arrow-circle-left hit"></i>
 		</span>
