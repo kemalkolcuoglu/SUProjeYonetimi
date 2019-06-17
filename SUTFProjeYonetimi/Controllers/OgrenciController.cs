@@ -2,6 +2,7 @@
 using SUTFProjeYonetimi.Models;
 using SUTFProjeYonetimi.Models.EkModel;
 using SUTFProjeYonetimi.Models.Enum;
+using SUTFProjeYonetimi.Models.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -225,6 +226,17 @@ namespace SUTFProjeYonetimi.Controllers
 		 *	controller içerisinde yer alan metotlar ile onaylama ve reddetme işlemi gerçekleştirebilir.
 		 *	
 		 */
+
+		[OgrenciFilter]
+		public ActionResult Proje()
+		{
+			List<VProje> projeler = vprojeIslemleri.VeriGetir("OgrenciID = " + AnlikOturum.Kullanici.NitelikID);
+			List<VProjeOneri> projeOnerileri = vprojeOneriIslemleri.VeriGetir("OgrenciID = " + AnlikOturum.Kullanici.NitelikID);
+
+			ViewData["ProjeOnerileri"] = projeOnerileri;
+
+			return View(projeler);
+		}
 		
 		[OgrenciFilter]
 		public ActionResult DanismanDegisiklikTalebi()
@@ -234,7 +246,7 @@ namespace SUTFProjeYonetimi.Controllers
 		}
 
 		[HttpPost]
-		[ValidateAntiForgeryToken] // TODO : Uygun Model Hazırlanacak
+		[ValidateAntiForgeryToken] 
 		[OgrenciFilter]
 		public ActionResult DanismanDegisiklikTalebi(int danisman)
 		{
@@ -242,7 +254,7 @@ namespace SUTFProjeYonetimi.Controllers
 				return RedirectToAction("Anasayfa", "Panel");
 			else
 			{
-
+				// TODO : Uygun Model Hazırlanacak
 			}
 			ViewData["Danismanlar"] = SLOlusturma.AkademisyenListele();
 			return View(danisman);
@@ -407,5 +419,44 @@ namespace SUTFProjeYonetimi.Controllers
 		}
 
 		#endregion
+
+		//[OgrenciFilter]
+		//public ActionResult RaporTeslim(int? id)
+		//{
+		//	if (id == null)
+		//		return RedirectToAction("Anasayfa", "Panel");
+
+		//	Proje proje = projeIslemleri.Bul("ID = " + id);
+
+		//	if (proje == null)
+		//		return HttpNotFound();
+
+		//	ViewData["Proje"] = proje;
+
+		//	return View();
+		//}
+
+		//[HttpPost]
+		//[OgrenciFilter]
+		//[ValidateAntiForgeryToken]
+		//public ActionResult RaporTeslim(int id, HttpPostedFileBase rapor)
+		//{
+		//	try
+		//	{
+		//		if (rapor.ContentLength > 0)
+		//		{
+		//			string _FileName = Path.GetFileName(rapor.FileName);
+		//			string _path = Path.Combine(Server.MapPath("~/Files"), _FileName);
+		//			rapor.SaveAs(_path);
+		//		}
+		//		ViewBag.Message = "Dosya Yükleme İşlemi Başarılı!";
+		//		return View();
+		//	}
+		//	catch
+		//	{
+		//		ViewBag.Hata = "Dosya Yükleme İşlemi Başarısız!";
+		//		return View();
+		//	}
+		//}
 	}
 }

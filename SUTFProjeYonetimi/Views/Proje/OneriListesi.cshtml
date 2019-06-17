@@ -30,6 +30,7 @@
 									<th data-hide="phone">Proje Öneri Oluşturma Tarihi</th>
 									<th data-hide="phone">Bölüm Başkanı Onay Tarihi</th>
 									<th data-hide="phone">Danışman Onay Tarihi</th>
+									<th>Durum</th>
 									<th>İşlemler</th>
 								</tr>
 							</thead>
@@ -43,6 +44,7 @@
 										<td>@items.Tarih.ToString("dd.MM.yyyy")</td>
 										<td>@items.BolumBaskaniOnayTarihi.ToString("dd.MM.yyyy")</td>
 										<td>@items.DanismanOnayTarihi.ToString("dd.MM.yyyy")</td>
+										<td>@((SUTFProjeYonetimi.Models.Enum.ProjeOneriDurumu)items.Durum)</td>
 										<td>
 											<a href="~/Proje/OneriOnayi/@items.ID" class="btn btn-warning hidden-sm hidden-xs"><i class="fa fa-check"></i></a>
 											<a href="~/Proje/OneriOnayi/@items.ID" class="btn btn-xs btn-warning hidden-md hidden-lg"><i class="fa fa-check"></i></a>

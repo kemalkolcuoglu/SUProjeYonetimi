@@ -5,6 +5,8 @@ using SUTFProjeYonetimi.Models.Enum;
 using SUTFProjeYonetimi.Models.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Web;
 using System.Web.Mvc;
 using static SUTFProjeYonetimi.App_Start.Tanimlamalar;
 
@@ -85,7 +87,15 @@ namespace SUTFProjeYonetimi.Controllers
 
 		public ActionResult Duzenle(int? id)
 		{
-			return View("EkleDuzenle");
+			if (id == null)
+				return RedirectToAction(nameof(Liste));
+
+			Proje proje = projeIslemleri.Bul("ID = " + id);
+
+			if (proje == null)
+				return HttpNotFound();
+
+			return View("EkleDuzenle", proje);
 		}
 
 		[HttpPost]
@@ -146,7 +156,7 @@ namespace SUTFProjeYonetimi.Controllers
 			switch (AnlikOturum.Kullanici.Yetki)
 			{
 				case (int)Yetkilendirme.SystemAdmin:
-					projeOneri = vprojeOneriIslemleri.VeriGetir(); break;
+					projeOneri = vprojeOneriIslemleri.VeriGetir("Durum <= " + (int)ProjeOneriDurumu.Onaylandi); break;
 				case (int)Yetkilendirme.BolumBaskani:
 					projeOneri = vprojeOneriIslemleri.VeriGetir(
 						"FakulteID = " + AnlikOturum.Kullanici.AFakulteID + " And BolumID = " + AnlikOturum.Kullanici.ABolumID + " And Durum = " + (int)ProjeOneriDurumu.DanismanOnayi
@@ -275,11 +285,5 @@ namespace SUTFProjeYonetimi.Controllers
 		}
 
 		#endregion
-
-		public ActionResult Duyuru()
-		{
-			// TODO : Duyuru Yapılacak
-			return View();
-		}
 	}
 }

@@ -9,5 +9,7 @@
 		public virtual int FakulteID { get; set; }
 		public virtual int BolumID { get; set; }
 		public virtual int DanismanID { get; set; }
+		public virtual string DanismanAd { get; set; }
+		public virtual string DanismanSoyad { get; set; }
 	}
 }

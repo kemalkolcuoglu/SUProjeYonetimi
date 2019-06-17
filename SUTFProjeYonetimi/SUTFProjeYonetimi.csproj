@@ -178,6 +178,8 @@
     <Content Include="Views\Panel\DuyuruEkleDuzenle.cshtml" />
     <Content Include="Views\Panel\DuyuruSil.cshtml" />
     <Content Include="Views\Panel\DuyuruDetay.cshtml" />
+    <Content Include="Views\Proje\RaporTeslim.cshtml" />
+    <Content Include="Views\Ogrenci\Proje.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
