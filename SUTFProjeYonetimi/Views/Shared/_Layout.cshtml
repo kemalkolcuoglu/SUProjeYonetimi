@@ -21,13 +21,13 @@
 					<ul class="dropdown-menu pull-right">
 						<li class="divider"></li>
 						<li>
-							<a href="login.html" class="padding-10 padding-top-5 padding-bottom-5" data-action="userLogout"><i class="fa fa-sign-out fa-lg"></i> <strong><u>L</u>ogout</strong></a>
+							<a href="~/Panel/CikisYap" class="padding-10 padding-top-5 padding-bottom-5" data-action="userLogout"><i class="fa fa-sign-out fa-lg"></i> <strong><u>Ç</u>ıkış Yap</strong></a>
 						</li>
 					</ul>
 				</li>
 			</ul>
 			<div id="logout" class="btn-header transparent pull-right">
-				<span> <a href="login.html" title="Sign Out" data-action="userLogout" data-logout-msg="You can improve your security further after logging out by closing this opened browser"><i class="fa fa-sign-out"></i></a> </span>
+				<span> <a href="~/Panel/CikisYap" title="Çıkış Yap" data-action="userLogout" data-logout-msg="Güvenli bir şekilde çıkış işleminiz gerçekleşecektir. İşlemi onaylıyor musunuz?"><i class="fa fa-sign-out"></i></a> </span>
 			</div>
 		</div>
 	</header>
@@ -53,18 +53,31 @@
 					<li><a href="~/Proje/OneriListesi" title="Proje Önerileri"><i class="fa fa-lg fa-fw fa-comment"></i>Proje Önerileri</a></li>
 					<li><a href="~/Ogrenci/Liste" title="Öğrenciler"><i class="fa fa-lg fa-fw fa-users"></i>Öğrenciler</a></li>
 					<li><a href="~/Akademisyen/Liste" title="Akademisyenler"><i class="fa fa-lg fa-fw fa-graduation-cap"></i>Akademisyenler</a></li>
+					<li><a href="~/Panel/Duyuru" title="Duyurular"><i class="fa fa-lg fa-fw fa-bell"></i>Duyurular</a></li>
 				}
 				else if (SUTFProjeYonetimi.Models.EkModel.AnlikOturum.Kullanici.Yetki == (int)SUTFProjeYonetimi.Models.Enum.Yetkilendirme.Dekan)
 				{
-
+					<li><a href="~/Panel/Anasayfa" title="Anasayfa"><i class="fa fa-lg fa-fw fa-home"></i>Anasayfa</a></li>
+					<li><a href="~/Proje/Liste" title="Projeler"><i class="fa fa-lg fa-fw fa-cubes"></i>Projeler</a></li>
+					<li><a href="~/Ogrenci/Liste" title="Öğrenciler"><i class="fa fa-lg fa-fw fa-users"></i>Öğrenciler</a></li>
+					<li><a href="~/Akademisyen/Liste" title="Akademisyenler"><i class="fa fa-lg fa-fw fa-graduation-cap"></i>Akademisyenler</a></li>
+					<li><a href="~/Panel/Duyuru" title="Duyurular"><i class="fa fa-lg fa-fw fa-bell"></i>Duyurular</a></li>
 				}
 				else if (SUTFProjeYonetimi.Models.EkModel.AnlikOturum.Kullanici.Yetki == (int)SUTFProjeYonetimi.Models.Enum.Yetkilendirme.BolumBaskani)
 				{
-
+					<li><a href="~/Panel/Anasayfa" title="Anasayfa"><i class="fa fa-lg fa-fw fa-home"></i>Anasayfa</a></li>
+					<li><a href="~/Proje/Liste" title="Projeler"><i class="fa fa-lg fa-fw fa-cubes"></i>Projeler</a></li>
+					<li><a href="~/Proje/OneriListesi" title="Proje Önerileri"><i class="fa fa-lg fa-fw fa-comment"></i>Proje Önerileri</a></li>
+					<li><a href="~/Ogrenci/Liste" title="Öğrenciler"><i class="fa fa-lg fa-fw fa-users"></i>Öğrenciler</a></li>
+					<li><a href="~/Panel/Duyuru" title="Duyurular"><i class="fa fa-lg fa-fw fa-bell"></i>Duyurular</a></li>
 				}
 				else if (SUTFProjeYonetimi.Models.EkModel.AnlikOturum.Kullanici.Yetki == (int)SUTFProjeYonetimi.Models.Enum.Yetkilendirme.Danisman)
 				{
-
+					<li><a href="~/Panel/Anasayfa" title="Anasayfa"><i class="fa fa-lg fa-fw fa-home"></i>Anasayfa</a></li>
+					<li><a href="~/Proje/Liste" title="Projeler"><i class="fa fa-lg fa-fw fa-cubes"></i>Projeler</a></li>
+					<li><a href="~/Proje/OneriListesi" title="Proje Önerileri"><i class="fa fa-lg fa-fw fa-comment"></i>Proje Önerileri</a></li>
+					<li><a href="~/Ogrenci/Liste" title="Öğrenciler"><i class="fa fa-lg fa-fw fa-users"></i>Öğrenciler</a></li>
+					<li><a href="~/Panel/Duyuru" title="Duyurular"><i class="fa fa-lg fa-fw fa-bell"></i>Duyurular</a></li>
 				}
 				else if (SUTFProjeYonetimi.Models.EkModel.AnlikOturum.Kullanici.Yetki == (int)SUTFProjeYonetimi.Models.Enum.Yetkilendirme.Ogrenci)
 				{

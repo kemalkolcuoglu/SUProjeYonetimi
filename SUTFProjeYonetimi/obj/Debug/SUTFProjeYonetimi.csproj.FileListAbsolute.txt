@@ -66,7 +66,6 @@ C:\Users\kemal\source\repos\SUTFProjeYonetimi\SUTFProjeYonetimi\bin\System.Web.W
 C:\Users\kemal\source\repos\SUTFProjeYonetimi\SUTFProjeYonetimi\bin\System.Web.Helpers.xml
 C:\Users\kemal\source\repos\SUTFProjeYonetimi\SUTFProjeYonetimi\bin\System.Web.Mvc.xml
 C:\Users\kemal\source\repos\SUTFProjeYonetimi\SUTFProjeYonetimi\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\kemal\source\repos\SUTFProjeYonetimi\SUTFProjeYonetimi\obj\Debug\SUTFProjeYonetimi.csprojAssemblyReference.cache
 C:\Users\kemal\source\repos\SUTFProjeYonetimi\SUTFProjeYonetimi\obj\Debug\SUTFProjeYonetimi.csproj.CoreCompileInputs.cache
 C:\Users\kemal\source\repos\SUTFProjeYonetimi\SUTFProjeYonetimi\obj\Debug\SUTFProjeYonetimi.csproj.CopyComplete
 C:\Users\kemal\source\repos\SUTFProjeYonetimi\SUTFProjeYonetimi\obj\Debug\SUTFProjeYonetimi.dll

@@ -48,13 +48,5 @@ namespace SUTFProjeYonetimi.Models
 
 		[DisplayName("Danışman Onayı")]
 		public bool DanismanOnay { get; set; }
-
-		/* SQL View */
-
-		public virtual int FakulteID { get; set; }
-		public virtual int BolumID { get; set; }
-		public virtual string OgrenciNo { get; set; }
-		public virtual string OgrenciAd { get; set; }
-		public virtual string OgrenciSoyad { get; set; }
 	}
 }

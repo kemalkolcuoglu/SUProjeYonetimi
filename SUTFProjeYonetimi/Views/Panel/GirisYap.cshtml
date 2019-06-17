@@ -54,12 +54,7 @@
 								@if (ViewBag.Hata != null)
 								{
 									<div class="alert alert-danger">
-										<ul>
-											@foreach (var item in ViewBag.Hata)
-											{
-												<li>@item</li>
-											}
-										</ul>
+										<p>@ViewBag.Hata</p>
 									</div>
 								}
 								@Html.ValidationSummary(true, "", new { @class = "text-danger" })

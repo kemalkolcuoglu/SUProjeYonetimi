@@ -1,10 +1,12 @@
-﻿namespace SUTFProjeYonetimi.Models.EkModel
+﻿using SUTFProjeYonetimi.Models.ViewModel;
+
+namespace SUTFProjeYonetimi.Models.EkModel
 {
 	public class AnlikOturum
 	{
-		public static Kullanici Kullanici
+		public static VKullanici Kullanici
 		{
-			get { return Get<Kullanici>("Kullanici"); }
+			get { return Get<VKullanici>("Kullanici"); }
 		}
 
 		public static void Set<T>(string key, T obj)

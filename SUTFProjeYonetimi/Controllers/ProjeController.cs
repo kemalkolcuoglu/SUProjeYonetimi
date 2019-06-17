@@ -2,10 +2,9 @@
 using SUTFProjeYonetimi.Models;
 using SUTFProjeYonetimi.Models.EkModel;
 using SUTFProjeYonetimi.Models.Enum;
+using SUTFProjeYonetimi.Models.ViewModel;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using static SUTFProjeYonetimi.App_Start.Tanimlamalar;
 
@@ -19,20 +18,20 @@ namespace SUTFProjeYonetimi.Controllers
 
 		public ActionResult Liste()
 		{
-			List<Proje> projeler;
+			List<VProje> projeler;
 			switch (AnlikOturum.Kullanici.Yetki)
 			{
-				case (int)Yetkilendirme.SystemAdmin: projeler = projeIslemleri.VeriGetir(); break;
+				case (int)Yetkilendirme.SystemAdmin: projeler = vprojeIslemleri.VeriGetir(); break;
 				case (int)Yetkilendirme.Dekan:
-					projeler = projeIslemleri.VeriGetir("FakulteID = " + AnlikOturum.Kullanici.AFakulteID + " And Silindi = 0"); break;
+					projeler = vprojeIslemleri.VeriGetir("FakulteID = " + AnlikOturum.Kullanici.AFakulteID + " And Silindi = 0"); break;
 				case (int)Yetkilendirme.BolumBaskani:
-					projeler = projeIslemleri.VeriGetir("FakulteID = " + AnlikOturum.Kullanici.AFakulteID + " And BolumID = " + AnlikOturum.Kullanici.ABolumID + " And Silindi = 0"); break;
+					projeler = vprojeIslemleri.VeriGetir("FakulteID = " + AnlikOturum.Kullanici.AFakulteID + " And BolumID = " + AnlikOturum.Kullanici.ABolumID + " And Silindi = 0"); break;
 				case (int)Yetkilendirme.Danisman:
-					projeler = projeIslemleri.VeriGetir("FakulteID = " + AnlikOturum.Kullanici.AFakulteID + " And BolumID = " + AnlikOturum.Kullanici.ABolumID + " And  DanismanID = " + AnlikOturum.Kullanici.NitelikID + " And Silindi = 0"); break;
+					projeler = vprojeIslemleri.VeriGetir("FakulteID = " + AnlikOturum.Kullanici.AFakulteID + " And BolumID = " + AnlikOturum.Kullanici.ABolumID + " And  DanismanID = " + AnlikOturum.Kullanici.NitelikID + " And Silindi = 0"); break;
 				case (int)Yetkilendirme.Ogrenci:
 					return RedirectToAction("Anasayfa", "Panel");
 				default:
-					projeler = new List<Proje>(); break;
+					projeler = new List<VProje>(); break;
 			}
 			return View(projeler);
 		}
@@ -143,20 +142,22 @@ namespace SUTFProjeYonetimi.Controllers
 
 		public ActionResult OneriListesi()
 		{
-			List<ProjeOneri> projeOneri;
+			List<VProjeOneri> projeOneri;
 			switch (AnlikOturum.Kullanici.Yetki)
 			{
+				case (int)Yetkilendirme.SystemAdmin:
+					projeOneri = vprojeOneriIslemleri.VeriGetir(); break;
 				case (int)Yetkilendirme.BolumBaskani:
-					projeOneri = projeOneriIslemleri.VeriGetirSQL(
-						"Select * From vprojeoneri Where FakulteID = " + AnlikOturum.Kullanici.AFakulteID + " And BolumID = " + AnlikOturum.Kullanici.ABolumID + " And Durum = " + (int)ProjeOneriDurumu.DanismanOnayi
+					projeOneri = vprojeOneriIslemleri.VeriGetir(
+						"FakulteID = " + AnlikOturum.Kullanici.AFakulteID + " And BolumID = " + AnlikOturum.Kullanici.ABolumID + " And Durum = " + (int)ProjeOneriDurumu.DanismanOnayi
 					);
 					break;
 				case (int)Yetkilendirme.Danisman:
-					projeOneri = projeOneriIslemleri.VeriGetirSQL(
-						"Select * From vprojeoneri Where FakulteID = " + AnlikOturum.Kullanici.AFakulteID + " And BolumID = " + AnlikOturum.Kullanici.ABolumID + " And DanismanID = " + AnlikOturum.Kullanici.NitelikID + " Durum = " + (int)ProjeOneriDurumu.Beklemede
+					projeOneri = vprojeOneriIslemleri.VeriGetir(
+						"FakulteID = " + AnlikOturum.Kullanici.AFakulteID + " And BolumID = " + AnlikOturum.Kullanici.ABolumID + " And DanismanID = " + AnlikOturum.Kullanici.NitelikID + " And Durum = " + (int)ProjeOneriDurumu.Beklemede
 					);
 					break;
-				default: projeOneri = new List<ProjeOneri>(); break;
+				default: projeOneri = new List<VProjeOneri>(); break;
 			}
 			return View(projeOneri);
 		}
@@ -166,7 +167,7 @@ namespace SUTFProjeYonetimi.Controllers
 			if (id == null)
 				return RedirectToAction(nameof(OneriListesi));
 
-			ProjeOneri projeOneri = projeOneriIslemleri.Bul("ID = " + id);
+			VProjeOneri projeOneri = vprojeOneriIslemleri.Bul("ID = " + id);
 
 			if (projeOneri == null)
 				return HttpNotFound();
@@ -176,9 +177,9 @@ namespace SUTFProjeYonetimi.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult OneriOnayi(int id)
+		public ActionResult OneriOnayi(int id, bool onay)
 		{
-			if (AnlikOturum.Kullanici.Yetki == (int)Yetkilendirme.BolumBaskani)
+			if (AnlikOturum.Kullanici.Yetki <= (int)Yetkilendirme.BolumBaskani)
 			{
 				ProjeOneri projeOneri = projeOneriIslemleri.Bul("ID = " + id);
 				projeOneri.Durum = (int)ProjeOneriDurumu.Onaylandi;
@@ -198,7 +199,9 @@ namespace SUTFProjeYonetimi.Controllers
 						ProjeAciklamasi = projeOneri.ProjeKonusuAmaci
 					};
 					projeIslemleri.Ekle(proje);
+					return RedirectToAction(nameof(OneriListesi));
 				}
+				return View(projeOneri);
 			}
 			else if (AnlikOturum.Kullanici.Yetki == (int)Yetkilendirme.Danisman)
 			{
@@ -211,13 +214,15 @@ namespace SUTFProjeYonetimi.Controllers
 
 				if (durum > 0)
 					return RedirectToAction(nameof(OneriListesi));
+
+				return View(projeOneri);
 			}
-			return View();
+			return RedirectToAction(nameof(OneriListesi));
 		}
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult OneriRed(int id)
+		public ActionResult OneriRed(int id, bool onay)
 		{
 			ProjeOneri projeOneri = projeOneriIslemleri.Bul("ID = " + id);
 

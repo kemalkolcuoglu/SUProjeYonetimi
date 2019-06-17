@@ -6,6 +6,7 @@ using static SUTFProjeYonetimi.App_Start.Tanimlamalar;
 using System.Collections.Generic;
 using System;
 using SUTFProjeYonetimi.Models.Enum;
+using SUTFProjeYonetimi.Models.ViewModel;
 
 namespace SUTFProjeYonetimi.Controllers
 {
@@ -16,7 +17,37 @@ namespace SUTFProjeYonetimi.Controllers
 		[AnlikOturumFilter]
 		public ActionResult Anasayfa()
 		{
+			List<Duyuru> duyurular;
+			switch (AnlikOturum.Kullanici.Yetki)
+			{
+				case (int)Yetkilendirme.SystemAdmin:
+					duyurular = duyuruIslemleri.VeriGetir("Etkin = 1 Order By ID Desc Limit 10"); break;
+				case (int)Yetkilendirme.Dekan:
+					duyurular = duyuruIslemleri.VeriGetir("FakulteID = " + AnlikOturum.Kullanici.AFakulteID + " And Etkin = 1 Order By ID Desc Limit 10"); break;
+				case (int)Yetkilendirme.BolumBaskani:
+				case (int)Yetkilendirme.Danisman:
+					duyurular = duyuruIslemleri.VeriGetir("FakulteID = " + AnlikOturum.Kullanici.AFakulteID + " And BolumID = " + AnlikOturum.Kullanici.ABolumID + " And Etkin = 1 Order By ID Desc Limit 10"); break;
+				case (int)Yetkilendirme.Ogrenci:
+					duyurular = duyuruIslemleri.VeriGetir("FakulteID = " + AnlikOturum.Kullanici.OFakulteID + " And BolumID = " + AnlikOturum.Kullanici.OBolumID + " And Etkin = 1 Order By ID Desc Limit 10"); break;
+				default:
+					duyurular = new List<Duyuru>(); break;
+			}
+			ViewData["Duyurular"] = duyurular;
+
 			return View();
+		}
+
+		public ActionResult DuyuruDetay(int? id)
+		{
+			if (id == null)
+				return RedirectToAction(nameof(Anasayfa));
+
+			Duyuru duyuru = duyuruIslemleri.Bul("ID = " + id + " And Etkin = 1");
+
+			if (duyuru == null)
+				return HttpNotFound();
+
+			return View(duyuru);
 		}
 
 		[AnlikOturumFilter]
@@ -78,7 +109,32 @@ namespace SUTFProjeYonetimi.Controllers
 					return View(kullaniciGiris);
 				}
 
-				Session["Kullanici"] = kullanici;
+				kullanici.SonErisimTarihi = DateTime.Now;
+				kullaniciIslemleri.Guncelle("ID = " + kullanici.ID, "SonErisimTarihi", kullanici.SonErisimTarihi, typeof(DateTime));
+
+				VKullanici vKullanici;
+
+				if (kullanici.Yetki > (int)Yetkilendirme.SystemAdmin)
+					vKullanici = vkullaniciIslemleri.Bul("ID = " + kullanici.ID);
+				else
+					vKullanici = new VKullanici()
+					{
+						Yetki = kullanici.Yetki,
+						Etkin = kullanici.Etkin,
+						ID = kullanici.ID,
+						KullaniciAdi = kullanici.KullaniciAdi,
+						NitelikID = kullanici.NitelikID,
+						Sifre = kullanici.Sifre,
+						SonErisimTarihi = kullanici.SonErisimTarihi
+					};
+
+				if(vKullanici == null)
+				{
+					ViewBag.Hata = "Girdiğiniz değerlerle eşleşen bir kullanıcı bulunamadı. Lütfen tekrar deneyiniz...";
+					return View(kullaniciGiris);
+				}
+
+				Session["Kullanici"] = vKullanici;
 				Session.Timeout = 120;
 				return RedirectToAction(nameof(Anasayfa));
 			}
@@ -92,141 +148,126 @@ namespace SUTFProjeYonetimi.Controllers
 			return RedirectToAction(nameof(GirisYap));
 		}
 
-		public ActionResult OgrenciFake()
+		#region DuyuruIslemleri
+
+		[AnlikOturumFilter]
+		[DanismanFilter]
+		public ActionResult Duyuru()
 		{
-			List<Akademisyen> akademisyenler = akademisyenIslemleri.VeriGetir();
+			List<Duyuru> duyurular;
 
-			for (int i = 0; i < 100; i++)
+			switch (AnlikOturum.Kullanici.Yetki)
 			{
-				int akd = random.Next(0, akademisyenler.Count);
-
-				Ogrenci ogrenci = new Ogrenci()
-				{
-					Ad = FakeData.NameData.GetFirstName(),
-					Soyad = FakeData.NameData.GetSurname(),
-					BolumID = 1,
-					FakulteID = 1,
-					Etkin = true,
-					OgrenciNo = "153311" + random.Next(100, 999),
-					OgrenimTipi = (int)OgrenimTipi.NormalOgretim,
-					Silindi = false,
-					Sinif = random.Next(1, 4),
-					TCKNO = "11111111" + random.Next(100, 999),
-					ID = i + 1,
-					DanismanID = akademisyenler[akd].ID
-				};
-
-				ogrenciIslemleri.Ekle(ogrenci);
-
-				Kullanici kullanici = new Kullanici()
-				{
-					Etkin = true,
-					KullaniciAdi = ogrenci.OgrenciNo,
-					NitelikID = ogrenci.ID,
-					Sifre = "123",
-					Yetki = (int)Yetkilendirme.Ogrenci
-				};
-
-				kullaniciIslemleri.Ekle(kullanici);
+				case (int)Yetkilendirme.SystemAdmin:
+					duyurular = duyuruIslemleri.VeriGetir(); break;
+				case (int)Yetkilendirme.Dekan:
+					duyurular = duyuruIslemleri.VeriGetir("FakulteID = " + AnlikOturum.Kullanici.AFakulteID); break;
+				case (int)Yetkilendirme.BolumBaskani:
+				case (int)Yetkilendirme.Danisman:
+					duyurular = duyuruIslemleri.VeriGetir("FakulteID = " + AnlikOturum.Kullanici.AFakulteID + " AND BolumID = " + AnlikOturum.Kullanici.ABolumID); break;
+				case (int)Yetkilendirme.Ogrenci:
+					return RedirectToAction("Anasayfa", "Panel");
+				default: return HttpNotFound();
 			}
-
-			return RedirectToAction(nameof(Anasayfa));
+			return View(duyurular);
 		}
 
-		public ActionResult AkademisyenFake()
+		[AnlikOturumFilter]
+		[DanismanFilter]
+		public ActionResult DuyuruEkle()
 		{
-			for (int i = 0; i < 10; i++)
-			{
-				Akademisyen akademisyen = new Akademisyen()
-				{
-					Ad = FakeData.NameData.GetFirstName(),
-					Soyad = FakeData.NameData.GetSurname(),
-					BolumID = 1,
-					FakulteID = 1,
-					Etkin = true,
-					TCKNO = "21111111" + random.Next(100, 999),
-					Unvan = "Dr.",
-					ID = i + 1,
-				};
+			ViewData["Fakulte"] = SLOlusturma.FakulteListele();
+			ViewData["Bolum"] = SLOlusturma.BolumListele();
 
-				akademisyenIslemleri.Ekle(akademisyen);
-
-				Kullanici kullanici = new Kullanici()
-				{
-					Etkin = true,
-					KullaniciAdi = akademisyen.TCKNO,
-					NitelikID = akademisyen.ID,
-					Sifre = "123",
-					Yetki = (int)Yetkilendirme.Danisman
-				};
-
-				kullaniciIslemleri.Ekle(kullanici);
-			}
-
-			return RedirectToAction(nameof(Anasayfa));
+			return View("DuyuruEkleDuzenle");
 		}
 
-		public ActionResult ProjeFake()
+		[AnlikOturumFilter]
+		[DanismanFilter]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult DuyuruEkle(Duyuru duyuru)
 		{
-			List<Ogrenci> ogrenciler = ogrenciIslemleri.VeriGetir();
-
-			for (int i = 0; i < 50; i++)
+			if (ModelState.IsValid)
 			{
-				int ogr = random.Next(0, ogrenciler.Count);
+				duyuru.Tarih = DateTime.Now;
 
-				ProjeOneri projeOneri = new ProjeOneri()
-				{
-					ID = i + 1,
-					BolumBaskaniOnay = true,
-					BolumBaskaniOnayTarihi = DateTime.Now.AddDays(-150),
-					DanismanOnay = true,
-					DanismanOnayTarihi = DateTime.Now.AddDays(-152),
-					Durum = (int)ProjeOneriDurumu.Onaylandi,
-					ProjeAdi = $"{ogrenciler[ogr].Ad} {ogrenciler[ogr].Soyad} Projesi",
-					ProjeKonusuAmaci = "Consectetur adipiscing elit. Integer porta ante eu ultricies tincidunt. Pellentesque eget mi non nunc iaculis luctus consequat in odio. Mauris fermentum ipsum justo, sagittis rhoncus felis dignissim eu. Etiam dui quam, dapibus a urna vitae, mattis placerat nisi. In eget aliquam metus. Proin feugiat blandit dolor sollicitudin tempor. Nam id auctor odio, ut imperdiet augue. In faucibus ipsum nec tincidunt egestas.",
-					CevreselEtkileri = "In congue eget enim a pulvinar. Pellentesque dictum ac velit ut ultricies. Etiam quis nibh at tellus interdum vestibulum et rhoncus ipsum. Integer rhoncus vestibulum arcu, quis imperdiet urna lacinia sit amet. Ut laoreet lacus orci, id condimentum est luctus sit amet. Sed cursus semper libero, id malesuada turpis sodales at. Integer ac augue urna. Donec a pharetra velit. Duis at sodales enim, vulputate ultricies sapien. Aenean volutpat erat quis tortor scelerisque, sit amet ultrices turpis sodales. Nullam in congue ex.\nFusce vitae luctus risus, vehicula vehicula odio.Sed varius tempus orci non vehicula.Mauris nec tempus neque.Nulla tincidunt dui quis odio suscipit bibendum.Nunc elit dolor, vehicula non mattis sit amet,	facilisis at justo.Donec rhoncus faucibus est, et sagittis neque convallis sit amet.Nulla vel aliquet enim.Proin maximus pretium risus.In fringilla malesuada orci eu vehicula.Praesent consequat porttitor turpis ac rutrum.",
-					EtikSakincalari = "Nulla aliquam, tortor at dapibus tincidunt, augue felis porta erat, nec posuere felis mauris at neque. Curabitur dictum a mauris quis iaculis. Nulla tristique bibendum.",
-					MaliyetArastirmasi = "Nunc at orci risus. Integer in aliquam arcu. Aliquam vel vulputate nunc. Sed ut tellus sed felis viverra sagittis. Praesent hendrerit a felis at rutrum. Ut blandit vel ipsum porta egestas. Cras blandit vitae ante vel semper. Vestibulum eu dignissim neque. Mauris sed massa ipsum. Nullam augue ante, tristique quis tincidunt eu, sollicitudin et nibh. Mauris et laoreet orci. Cras sed justo justo. Fusce a.",
-					YararlanilanKaynaklar = "Etiam varius varius mauris, sed dapibus turpis gravida id. Cras nec iaculis magna. Donec efficitur dui eros, eu facilisis lorem faucibus a. Vestibulum fermentum quam felis, ut gravida tortor maximus facilisis. Fusce in arcu at metus suscipit consequat sed vel ex. Nullam fringilla diam vel scelerisque mollis. Nunc quis facilisis sem, laoreet porta arcu. Sed dignissim in massa non varius.\nOrci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam consectetur justo ut sodales luctus. Ut fermentum arcu fermentum tellus imperdiet, nec euismod purus cursus. Vestibulum pulvinar rutrum nisl. Phasellus convallis ligula ac tellus mollis aliquet. Sed odio risus, auctor a dolor id, accumsan pharetra nulla. Integer at blandit arcu. Ut odio ligula, accumsan sit amet euismod blandit, mattis nec nunc. Fusce magna velit, ullamcorper nec feugiat sit amet, sodales at ex. Etiam vel pellentesque mi.\nAliquam vel tortor congue, pharetra enim ac, ultrices justo. Praesent sed imperdiet libero. Donec pharetra dolor et nisi sodales pretium. Nullam vestibulum enim posuere, pulvinar dolor sed, vestibulum nisl. Vivamus suscipit lorem ex, vehicula ornare sapien fermentum interdum. Proin lectus nibh, consectetur id ex nec, dictum tempor nisl. Pellentesque non vulputate velit.",
-					Tarih = DateTime.Now.AddDays(-155),
-					OgrenciID = ogrenciler[ogr].ID,
-					DanismanID = ogrenciler[ogr].DanismanID
-				};
+				int durum = duyuruIslemleri.Ekle(duyuru);
 
-				projeOneriIslemleri.Ekle(projeOneri);
-
-				Proje proje = new Proje()
-				{
-					ID = i + 1,
-					BaslangicTarihi = DateTime.Now.AddDays(-150),
-					BitisTarihi = DateTime.Now.AddDays(15),
-					BolumID = 1,
-					FakulteID = 1,
-					Etkin = true,
-					ProjeOneriID = projeOneri.ID,
-					ProjeAdi = projeOneri.ProjeAdi,
-					ProjeAciklamasi = "Sed vitae nulla at ante aliquet vehicula. Morbi non nibh.",
-					Silindi = false,
-					ProjeTipi = 4,
-					ProjeNo = "TF-" + random.Next(1000, 9999)
-				};
-
-				projeIslemleri.Ekle(proje);
-
-				ProjeOgrenciDanisman pod = new ProjeOgrenciDanisman()
-				{
-					DanismanID = projeOneri.DanismanID,
-					OgrenciID = ogrenciler[ogr].ID,
-					ProjeID = proje.ID,
-					ID = i + 1
-				};
-
-				projeOgrDanIslemleri.Ekle(pod);
-
-				ogrenciler.Remove(ogrenciler[ogr]);
+				if (durum > 0)
+					return RedirectToAction(nameof(Duyuru));
 			}
 
-			return RedirectToAction(nameof(Anasayfa));
+			return View("DuyuruEkleDuzenle", duyuru);
 		}
+
+		[AnlikOturumFilter]
+		[DanismanFilter]
+		public ActionResult DuyuruDuzenle(int? id)
+		{
+			if (id == null)
+				return RedirectToAction(nameof(Duyuru));
+
+			Duyuru duyuru = duyuruIslemleri.Bul("ID = " + id);
+
+			if (duyuru == null)
+				return HttpNotFound();
+
+			return View("DuyuruEkleDuzenle", duyuru);
+		}
+
+		[AnlikOturumFilter]
+		[DanismanFilter]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult DuyuruDuzenle(int id, Duyuru gelenDuyuru)
+		{
+			if (ModelState.IsValid)
+			{
+				Duyuru duyuru = duyuruIslemleri.Bul("ID = " + id);
+				duyuru.Baslik = gelenDuyuru.Baslik;
+				duyuru.BolumID = gelenDuyuru.BolumID;
+				duyuru.FakulteID = gelenDuyuru.FakulteID;
+				duyuru.Metin = gelenDuyuru.Metin;
+				duyuru.Tarih = gelenDuyuru.Tarih;
+
+				int durum = duyuruIslemleri.Guncelle("ID = " + id, duyuru);
+
+				if (durum > 0)
+					return RedirectToAction(nameof(Duyuru));
+			}
+			return View("DuyuruEkleDuzenle", gelenDuyuru);
+		}
+
+		[AnlikOturumFilter]
+		[DanismanFilter]
+		public ActionResult DuyuruSil(int? id)
+		{
+			if (id == null)
+				return RedirectToAction(nameof(Duyuru));
+
+			Duyuru duyuru = duyuruIslemleri.Bul("ID = " + id);
+
+			if (duyuru == null)
+				return HttpNotFound();
+
+			return View();
+		}
+
+		[AnlikOturumFilter]
+		[DanismanFilter]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult DuyuruSil(int id, Duyuru duyuru)
+		{
+			int durum = duyuruIslemleri.Sil("ID = " + id);
+
+			if (durum > 0)
+				return RedirectToAction(nameof(Duyuru));
+
+			return View();
+		}
+
+		#endregion
 	}
 }

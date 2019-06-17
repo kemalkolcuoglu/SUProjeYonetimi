@@ -41,7 +41,7 @@ namespace SUTFProjeYonetimi.Controllers
 				case (int)Yetkilendirme.BolumBaskani:
 					ogrenciler = ogrenciIslemleri.VeriGetir("Silindi = 0 AND FakulteID = " + AnlikOturum.Kullanici.AFakulteID + " AND BolumID = " + AnlikOturum.Kullanici.ABolumID); break;
 				case (int)Yetkilendirme.Danisman:
-					ogrenciler = ogrenciIslemleri.VeriGetir("Select * From vogrencidanisman Where Silindi = 0 AND DanismanID = " + AnlikOturum.Kullanici.NitelikID); break;
+					ogrenciler = ogrenciIslemleri.VeriGetirSQL("Select * From vogrenci Where Silindi = 0 AND DanismanID = " + AnlikOturum.Kullanici.NitelikID); break;
 				case (int)Yetkilendirme.Ogrenci:
 					return RedirectToAction("Anasayfa", "Panel");
 				default: return HttpNotFound();
@@ -120,6 +120,7 @@ namespace SUTFProjeYonetimi.Controllers
 			Ogrenci ogrenci;
 			switch (AnlikOturum.Kullanici.Yetki)
 			{
+				case (int)Yetkilendirme.SystemAdmin:
 				case (int)Yetkilendirme.Dekan:
 					ogrenci = ogrenciIslemleri.Bul("ID = " + id); break;
 				case (int)Yetkilendirme.BolumBaskani:
@@ -179,6 +180,7 @@ namespace SUTFProjeYonetimi.Controllers
 			Ogrenci ogrenci;
 			switch (AnlikOturum.Kullanici.Yetki)
 			{
+				case (int)Yetkilendirme.SystemAdmin:
 				case (int)Yetkilendirme.Dekan:
 					ogrenci = ogrenciIslemleri.Bul("ID = " + id + " And Silindi = 0"); break;
 				case (int)Yetkilendirme.BolumBaskani:

@@ -41,11 +41,5 @@ namespace SUTFProjeYonetimi.Models
 		public bool Etkin { get; set; }
 
 		public bool Silindi { get; set; }
-
-		/* SQL View */
-
-		public virtual int FakulteID { get; set; }
-		public virtual int BolumID { get; set; }
-		public virtual int DanismanID { get; set; }
 	}
 }

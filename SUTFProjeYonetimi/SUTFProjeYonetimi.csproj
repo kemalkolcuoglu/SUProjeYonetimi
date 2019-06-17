@@ -123,6 +123,7 @@
     <Compile Include="Helpers\StringExtensions.cs" />
     <Compile Include="Models\Bolum.cs" />
     <Compile Include="Models\Akademisyen.cs" />
+    <Compile Include="Models\Duyuru.cs" />
     <Compile Include="Models\EkModel\AnlikOturum.cs" />
     <Compile Include="Models\EkModel\KullaniciGiris.cs" />
     <Compile Include="Models\EkModel\SLOlusturma.cs" />
@@ -138,6 +139,9 @@
     <Compile Include="Models\OgrenciDanisman.cs" />
     <Compile Include="Models\ProjeOgrenciDanisman.cs" />
     <Compile Include="Models\ProjeOneri.cs" />
+    <Compile Include="Models\ViewModel\VKullanici.cs" />
+    <Compile Include="Models\ViewModel\VProje.cs" />
+    <Compile Include="Models\ViewModel\VProjeOneri.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Transactions\TemelIslemler.cs" />
     <Compile Include="Transactions\VeriIslemleri.cs" />
@@ -170,6 +174,10 @@
     <Content Include="Views\Panel\GirisYap.cshtml" />
     <Content Include="Views\Shared\_Head.cshtml" />
     <Content Include="Views\Shared\_Script.cshtml" />
+    <Content Include="Views\Panel\Duyuru.cshtml" />
+    <Content Include="Views\Panel\DuyuruEkleDuzenle.cshtml" />
+    <Content Include="Views\Panel\DuyuruSil.cshtml" />
+    <Content Include="Views\Panel\DuyuruDetay.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -181,7 +189,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Assets\" />
     <Folder Include="Files\" />
-    <Folder Include="Models\ViewModel\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
