@@ -11,7 +11,7 @@ namespace SUTFProjeYonetimi.Transactions
 	public class TemelIslemler<T> : VeriIslemleri where T : class
 	{
 		private string tabloAdi;
-		protected string TabloAdi { get { return tabloAdi; } set { tabloAdi = value; } }
+		public string TabloAdi { get { return tabloAdi; } protected set { tabloAdi = value; } }
 		public TemelIslemler(string tabloAdi)
 		{
 			this.tabloAdi = tabloAdi;
@@ -358,6 +358,12 @@ namespace SUTFProjeYonetimi.Transactions
 		public int Sil(string sart)
 		{
 			int sonuc = VIVeriSil(tabloAdi, sart);
+			return sonuc;
+		}
+
+		public int HamSorgu(string sorgu)
+		{
+			int sonuc = VIHamSorgu(sorgu);
 			return sonuc;
 		}
 

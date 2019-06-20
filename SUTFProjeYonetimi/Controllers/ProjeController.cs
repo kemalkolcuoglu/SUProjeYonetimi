@@ -5,8 +5,6 @@ using SUTFProjeYonetimi.Models.Enum;
 using SUTFProjeYonetimi.Models.ViewModel;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Web;
 using System.Web.Mvc;
 using static SUTFProjeYonetimi.App_Start.Tanimlamalar;
 
@@ -82,6 +80,7 @@ namespace SUTFProjeYonetimi.Controllers
 				if (durum > 0)
 					return RedirectToAction(nameof(Liste));
 			}
+			ViewData["ProjeTipi"] = SLOlusturma.ProjeTipiListele();
 			return View("EkleDuzenle", proje);
 		}
 
@@ -94,6 +93,8 @@ namespace SUTFProjeYonetimi.Controllers
 
 			if (proje == null)
 				return HttpNotFound();
+
+			ViewData["ProjeTipi"] = SLOlusturma.ProjeTipiListele();
 
 			return View("EkleDuzenle", proje);
 		}
@@ -120,6 +121,7 @@ namespace SUTFProjeYonetimi.Controllers
 				if (durum > 0)
 					return RedirectToAction(nameof(Liste));
 			}
+			ViewData["ProjeTipi"] = SLOlusturma.ProjeTipiListele();
 			return View("EkleDuzenle", gelenProje);
 		}
 
@@ -189,7 +191,7 @@ namespace SUTFProjeYonetimi.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult OneriOnayi(int id, bool onay)
 		{
-			if (AnlikOturum.Kullanici.Yetki <= (int)Yetkilendirme.BolumBaskani)
+			if (AnlikOturum.Kullanici.Yetki <= (int)Yetkilendirme.BolumBaskani && onay)
 			{
 				ProjeOneri projeOneri = projeOneriIslemleri.Bul("ID = " + id);
 				projeOneri.Durum = (int)ProjeOneriDurumu.Onaylandi;
@@ -209,6 +211,16 @@ namespace SUTFProjeYonetimi.Controllers
 						ProjeAciklamasi = projeOneri.ProjeKonusuAmaci
 					};
 					projeIslemleri.Ekle(proje);
+
+					ProjeOgrenciDanisman projeOgrenciDanisman = new ProjeOgrenciDanisman()
+					{
+						DonemID = AnlikOturum.Donem.ID,
+						OgrenciID = projeOneri.OgrenciID,
+						ProjeID = proje.ID,
+						DanismanID = projeOneri.DanismanID
+					};
+					projeOgrDanIslemleri.Ekle(projeOgrenciDanisman);
+
 					return RedirectToAction(nameof(OneriListesi));
 				}
 				return View(projeOneri);

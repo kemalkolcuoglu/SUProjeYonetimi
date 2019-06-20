@@ -19,6 +19,7 @@ namespace SUTFProjeYonetimi.App_Start
 		public static TemelIslemler<ProjeNot> projeNotIslemleri = new TemelIslemler<ProjeNot>("projenot");
 		public static TemelIslemler<ProjeOgrenciDanisman> projeOgrDanIslemleri = new TemelIslemler<ProjeOgrenciDanisman>("projeogrdan");
 		public static TemelIslemler<ProjeOneri> projeOneriIslemleri = new TemelIslemler<ProjeOneri>("projeoneri");
+		public static TemelIslemler<ProjeTipi> projeTipiIslemleri = new TemelIslemler<ProjeTipi>("projeTipi");
 
 		/* SQL View Tanımlamaları */
 

@@ -11,7 +11,7 @@ namespace SUTFProjeYonetimi.Models.EkModel
 		{
 			List<SelectListItem> list = new List<SelectListItem>();
 
-			foreach (var item in akademisyenIslemleri.VeriGetir("FakulteID = " + AnlikOturum.Kullanici.OFakulteID + " And BolumID = " + AnlikOturum.Kullanici.OBolumID))
+			foreach (var item in akademisyenIslemleri.VeriGetir("Silindi = 0 And Etkin = 1 And FakulteID = " + AnlikOturum.Kullanici.OFakulteID + " And BolumID = " + AnlikOturum.Kullanici.OBolumID))
 			{
 				SelectListItem sli = new SelectListItem()
 				{
@@ -28,7 +28,7 @@ namespace SUTFProjeYonetimi.Models.EkModel
 		{
 			List<SelectListItem> list = new List<SelectListItem>();
 
-			foreach (var item in ogrenciIslemleri.VeriGetir("FakulteID = " + AnlikOturum.Kullanici.OFakulteID + " And BolumID = " + AnlikOturum.Kullanici.OBolumID))
+			foreach (var item in ogrenciIslemleri.VeriGetir("Silindi = 0 And Etkin = 1 And FakulteID = " + AnlikOturum.Kullanici.OFakulteID + " And BolumID = " + AnlikOturum.Kullanici.OBolumID))
 			{
 				SelectListItem sli = new SelectListItem()
 				{
@@ -45,7 +45,7 @@ namespace SUTFProjeYonetimi.Models.EkModel
 		{
 			List<SelectListItem> list = new List<SelectListItem>();
 
-			foreach (var item in fakulteIslemleri.VeriGetir())
+			foreach (var item in fakulteIslemleri.VeriGetir("Silindi = 0 And Etkin = 1"))
 			{
 				SelectListItem sli = new SelectListItem()
 				{
@@ -62,7 +62,7 @@ namespace SUTFProjeYonetimi.Models.EkModel
 		{
 			List<SelectListItem> list = new List<SelectListItem>();
 
-			foreach (var item in bolumIslemleri.VeriGetir())
+			foreach (var item in bolumIslemleri.VeriGetir("Silindi = 0 And Etkin = 1"))
 			{
 				SelectListItem sli = new SelectListItem()
 				{
@@ -132,32 +132,17 @@ namespace SUTFProjeYonetimi.Models.EkModel
 		public static SelectList ProjeTipiListele()
 		{
 			List<SelectListItem> list = new List<SelectListItem>();
-			SelectListItem sli1 = new SelectListItem()
-			{
-				Text = "Proje Yönetimi",
-				Value = "1"
-			};
-			SelectListItem sli2 = new SelectListItem()
-			{
-				Text = "Yazılım Projesi",
-				Value = "2"
-			};
-			SelectListItem sli3 = new SelectListItem()
-			{
-				Text = "Donanım Projesi",
-				Value = "3"
-			};
-			SelectListItem sli4 = new SelectListItem()
-			{
-				Text = "Bitirme Projesi",
-				Value = "4"
-			};
 
-			list.Add(sli1);
-			list.Add(sli2);
-			list.Add(sli3);
-			list.Add(sli4);
+			foreach (var item in projeTipiIslemleri.VeriGetir("Etkin = 1 And Silindi = 0 And FakulteID = " + AnlikOturum.Kullanici.AFakulteID))
+			{
+				SelectListItem sli = new SelectListItem()
+				{
+					Text = item.Ad,
+					Value = item.ID.ToString()
+				};
 
+				list.Add(sli);
+			}
 			return new SelectList(list, "Value", "Text");
 		}
 
@@ -165,7 +150,7 @@ namespace SUTFProjeYonetimi.Models.EkModel
 		{
 			List<SelectListItem> list = new List<SelectListItem>();
 
-			foreach (var item in vakademisyenIslemleri.VeriGetir("Yetki = " + (int)Yetkilendirme.Dekan))
+			foreach (var item in vakademisyenIslemleri.VeriGetir("Silindi = 0 And Etkin = 1 And Yetki = " + (int)Yetkilendirme.Dekan))
 			{
 				SelectListItem sli = new SelectListItem()
 				{
@@ -182,7 +167,7 @@ namespace SUTFProjeYonetimi.Models.EkModel
 		{
 			List<SelectListItem> list = new List<SelectListItem>();
 
-			foreach (var item in vakademisyenIslemleri.VeriGetir("Yetki = " + (int)Yetkilendirme.BolumBaskani))
+			foreach (var item in vakademisyenIslemleri.VeriGetir("Silindi = 0 And Etkin = 1 And Yetki = " + (int)Yetkilendirme.BolumBaskani))
 			{
 				SelectListItem sli = new SelectListItem()
 				{

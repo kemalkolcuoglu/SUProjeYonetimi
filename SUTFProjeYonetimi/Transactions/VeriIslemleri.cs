@@ -255,6 +255,12 @@ namespace SUTFProjeYonetimi.Transactions
 			return CommandCalistir(cmd);
 		}
 
+		protected int VIHamSorgu(string sorgu)
+		{
+			MySqlCommand cmd = new MySqlCommand(sorgu, sqlCon);
+			return CommandCalistir(cmd);
+		}
+
 		/// <summary>
 		///     İçerisine aldığı parametreler ile prosedür çağırılması için kullanılır.
 		/// </summary>

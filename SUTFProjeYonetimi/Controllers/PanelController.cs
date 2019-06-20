@@ -572,6 +572,31 @@ namespace SUTFProjeYonetimi.Controllers
 			return View(donem);
 		}
 
+		public ActionResult EtkinDonemAtama(int? id)
+		{
+			if (id == null)
+				return RedirectToAction(nameof(Donemler));
+
+			Donem donem = donemIslemleri.Bul("ID = " + id);
+
+			if (donem == null)
+				return HttpNotFound();
+
+			return View(donem);
+		}
+
+		[HttpPost]
+		public ActionResult EtkinDonemAtama(int id, Donem donem)
+		{
+			donemIslemleri.HamSorgu("Update " + donemIslemleri.TabloAdi + " Set Etkin = 0");
+			int durum = donemIslemleri.HamSorgu("Update " + donemIslemleri.TabloAdi + " Set Etkin = 1 Where ID = " + id);
+
+			if (durum > 0)
+				return RedirectToAction(nameof(Donemler));
+
+			return View();
+		}
+
 		#endregion
 	}
 }
