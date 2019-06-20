@@ -12,8 +12,6 @@ namespace SUTFProjeYonetimi.Controllers
 {
 	public class PanelController : Controller
 	{
-		private static Random random = new Random();
-
 		[AnlikOturumFilter]
 		public ActionResult Anasayfa()
 		{
@@ -266,6 +264,216 @@ namespace SUTFProjeYonetimi.Controllers
 				return RedirectToAction(nameof(Duyuru));
 
 			return View();
+		}
+
+		#endregion
+
+		#region FakulteVeBolum
+
+		[SysAdminFilter]
+		public ActionResult FakulteListesi()
+		{
+			List<VFakulte> fakulteler = vfakulteIslemleri.VeriGetir();
+
+			return View(fakulteler);
+		}
+
+		[SysAdminFilter]
+		public ActionResult FakulteEkle()
+		{
+			ViewData["Dekanlar"] = SLOlusturma.DekanListele();
+
+			return View("FakulteEkleDuzenle");
+		}
+
+		[SysAdminFilter]
+		[ValidateAntiForgeryToken]
+		[HttpPost]
+		public ActionResult FakulteEkle(Fakulte fakulte)
+		{
+			if (ModelState.IsValid)
+			{
+				fakulte.Silindi = false;
+				int durum = fakulteIslemleri.Ekle(fakulte);
+
+				if (durum > 0)
+					return RedirectToAction(nameof(FakulteListesi));
+				else
+					ViewBag.Hata = "İşlem Gerçekleştirilemedi! Lütfen tekrar deneyiniz.";
+			}
+			ViewData["Dekanlar"] = SLOlusturma.DekanListele();
+			return View("FakulteEkleDuzenle", fakulte);
+		}
+
+		[SysAdminFilter]
+		public ActionResult FakulteDuzenle(int? id)
+		{
+			if (id == null)
+				return RedirectToAction(nameof(FakulteListesi));
+
+			Fakulte fakulte = fakulteIslemleri.Bul("ID = " + id);
+
+			if (fakulte == null)
+				return HttpNotFound();
+
+			ViewData["Dekanlar"] = SLOlusturma.DekanListele();
+
+			return View("FakulteEkleDuzenle", fakulte);
+		}
+
+		[SysAdminFilter]
+		[ValidateAntiForgeryToken]
+		[HttpPost]
+		public ActionResult FakulteDuzenle(int id, Fakulte gelenFakulte)
+		{
+			if (ModelState.IsValid)
+			{
+				Fakulte fakulte = fakulteIslemleri.Bul("ID = " + id);
+				fakulte.Ad = gelenFakulte.Ad;
+				fakulte.KisaKod = gelenFakulte.KisaKod;
+
+				int durum = fakulteIslemleri.Guncelle("ID = " + id, fakulte);
+
+				if (durum > 0)
+					return RedirectToAction(nameof(FakulteListesi));
+				else
+					ViewBag.Hata = "İşlem Gerçekleştirilemedi! Lütfen tekrar deneyiniz.";
+			}
+			ViewData["Dekanlar"] = SLOlusturma.DekanListele();
+			return View("FakulteEkleDuzenle", gelenFakulte);
+		}
+
+		[SysAdminFilter]
+		public ActionResult FakulteSil(int? id)
+		{
+			if (id == null)
+				return RedirectToAction(nameof(FakulteListesi));
+
+			VFakulte fakulte = vfakulteIslemleri.Bul("ID = " + id);
+
+			if (fakulte == null)
+				return HttpNotFound();
+
+			return View(fakulte);
+		}
+
+		[SysAdminFilter]
+		[ValidateAntiForgeryToken]
+		[HttpPost]
+		public ActionResult FakulteSil(int id, VFakulte fakulte)
+		{
+			int durum = fakulteIslemleri.Guncelle("ID = " + id, "Silidi", false, typeof(bool));
+
+			if (durum > 0)
+				return RedirectToAction(nameof(FakulteListesi));
+			else
+				ViewBag.Hata = "İşlem Gerçekleştirilemedi! Lütfen tekrar deneyiniz.";
+
+			return View(fakulte);
+		}
+
+		[SysAdminFilter]
+		public ActionResult BolumListesi()
+		{
+			List<VBolum> bolumler = vbolumIslemleri.VeriGetir();
+
+			return View(bolumler);
+		}
+
+		[SysAdminFilter]
+		public ActionResult BolumEkle()
+		{
+			ViewData["BolumBaskanlari"] = SLOlusturma.BolumBaskaniListele();
+			ViewData["Fakulteler"] = SLOlusturma.FakulteListele();
+			return View("BolumEkleDuzenle");
+		}
+
+		[SysAdminFilter]
+		[ValidateAntiForgeryToken]
+		[HttpPost]
+		public ActionResult BolumEkle(Bolum bolum)
+		{
+			if (ModelState.IsValid)
+			{
+				bolum.Silindi = false;
+				int durum = bolumIslemleri.Ekle(bolum);
+
+				if (durum > 0)
+					return RedirectToAction(nameof(BolumListesi));
+				else
+					ViewBag.Hata = "İşlem Gerçekleştirilemedi! Lütfen tekrar deneyiniz.";
+			}
+			ViewData["BolumBaskanlari"] = SLOlusturma.BolumBaskaniListele();
+			ViewData["Fakulteler"] = SLOlusturma.FakulteListele();
+			return View("BolumEkleDuzenle", bolum);
+		}
+
+		[SysAdminFilter]
+		public ActionResult BolumDuzenle(int? id)
+		{
+			if (id == null)
+				return RedirectToAction(nameof(BolumListesi));
+
+			Bolum bolum = bolumIslemleri.Bul("ID = " + id);
+
+			if (bolum == null)
+				return HttpNotFound();
+
+			ViewData["BolumBaskanlari"] = SLOlusturma.BolumBaskaniListele();
+			ViewData["Fakulteler"] = SLOlusturma.FakulteListele();
+			return View("BolumEkleDuzenle", bolum);
+		}
+
+		[SysAdminFilter]
+		[ValidateAntiForgeryToken]
+		[HttpPost]
+		public ActionResult BolumDuzenle(int id, Bolum gelenBolum)
+		{
+			if (ModelState.IsValid)
+			{
+				Bolum bolum = bolumIslemleri.Bul("ID = " + id);
+				bolum.Ad = gelenBolum.Ad;
+				bolum.KisaKod = gelenBolum.KisaKod;
+
+				int durum = bolumIslemleri.Guncelle("ID = " + id, bolum);
+
+				if (durum > 0)
+					return RedirectToAction(nameof(BolumListesi));
+				else
+					ViewBag.Hata = "İşlem Gerçekleştirilemedi! Lütfen tekrar deneyiniz.";
+			}
+			ViewData["BolumBaskanlari"] = SLOlusturma.BolumBaskaniListele();
+			ViewData["Fakulteler"] = SLOlusturma.FakulteListele();
+			return View("BolumEkleDuzenle", gelenBolum);
+		}
+
+		[SysAdminFilter]
+		public ActionResult BolumSil(int? id)
+		{
+			if (id == null)
+				return RedirectToAction(nameof(BolumListesi));
+
+			VBolum bolum = vbolumIslemleri.Bul("ID = " + id);
+
+			if (bolum == null)
+				return HttpNotFound();
+
+			return View(bolum);
+		}
+
+		[SysAdminFilter]
+		[ValidateAntiForgeryToken]
+		[HttpPost]
+		public ActionResult BolumSil(int id, VBolum bolum)
+		{
+			int durum = bolumIslemleri.Guncelle("ID = " + id, "Silidi", false, typeof(bool));
+
+			if (durum > 0)
+				return RedirectToAction(nameof(BolumListesi));
+			else
+				ViewBag.Hata = "İşlem Gerçekleştirilemedi! Lütfen tekrar deneyiniz.";
+
+			return View(bolum);
 		}
 
 		#endregion

@@ -115,6 +115,7 @@
     <Compile Include="Filters\AnlikOturumFilter.cs" />
     <Compile Include="Filters\DanismanFilter.cs" />
     <Compile Include="Filters\OgrenciFilter.cs" />
+    <Compile Include="Filters\SysAdminFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -123,6 +124,7 @@
     <Compile Include="Helpers\StringExtensions.cs" />
     <Compile Include="Models\Bolum.cs" />
     <Compile Include="Models\Akademisyen.cs" />
+    <Compile Include="Models\Donem.cs" />
     <Compile Include="Models\Duyuru.cs" />
     <Compile Include="Models\EkModel\AnlikOturum.cs" />
     <Compile Include="Models\EkModel\KullaniciGiris.cs" />
@@ -139,7 +141,11 @@
     <Compile Include="Models\OgrenciDanisman.cs" />
     <Compile Include="Models\ProjeOgrenciDanisman.cs" />
     <Compile Include="Models\ProjeOneri.cs" />
+    <Compile Include="Models\ViewModel\VAkademisyen.cs" />
+    <Compile Include="Models\ViewModel\VBolum.cs" />
+    <Compile Include="Models\ViewModel\VFakulte.cs" />
     <Compile Include="Models\ViewModel\VKullanici.cs" />
+    <Compile Include="Models\ViewModel\VOgrenci.cs" />
     <Compile Include="Models\ViewModel\VProje.cs" />
     <Compile Include="Models\ViewModel\VProjeOneri.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -180,6 +186,12 @@
     <Content Include="Views\Panel\DuyuruDetay.cshtml" />
     <Content Include="Views\Proje\RaporTeslim.cshtml" />
     <Content Include="Views\Ogrenci\Proje.cshtml" />
+    <Content Include="Views\Panel\FakulteListesi.cshtml" />
+    <Content Include="Views\Panel\FakulteEkleDuzenle.cshtml" />
+    <Content Include="Views\Panel\FakulteSil.cshtml" />
+    <Content Include="Views\Panel\BolumListesi.cshtml" />
+    <Content Include="Views\Panel\BolumEkleDuzenle.cshtml" />
+    <Content Include="Views\Panel\BolumSil.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

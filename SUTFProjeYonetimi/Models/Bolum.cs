@@ -16,5 +16,12 @@ namespace SUTFProjeYonetimi.Models
 
 		[Required, MaxLength(15), DisplayName("Bölüm Kısa Kodu")]
 		public string KisaKod { get; set; }
+
+		[Required, DisplayName("Bölüm Başkanı")]
+		public int Yetkili { get; set; }
+
+		public bool Etkin { get; set; }
+
+		public bool Silindi { get; set; }
 	}
 }

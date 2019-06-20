@@ -143,5 +143,39 @@ namespace SUTFProjeYonetimi.Models.EkModel
 
 			return new SelectList(list, "Value", "Text");
 		}
+
+		public static SelectList DekanListele()
+		{
+			List<SelectListItem> list = new List<SelectListItem>();
+
+			foreach (var item in vakademisyenIslemleri.VeriGetir("Yetki = " + (int)Yetkilendirme.Dekan))
+			{
+				SelectListItem sli = new SelectListItem()
+				{
+					Text = item.Unvan + " " + item.Ad + " " + item.Soyad,
+					Value = item.ID.ToString()
+				};
+
+				list.Add(sli);
+			}
+			return new SelectList(list, "Value", "Text");
+		}
+
+		public static SelectList BolumBaskaniListele()
+		{
+			List<SelectListItem> list = new List<SelectListItem>();
+
+			foreach (var item in vakademisyenIslemleri.VeriGetir("Yetki = " + (int)Yetkilendirme.BolumBaskani))
+			{
+				SelectListItem sli = new SelectListItem()
+				{
+					Text = item.Unvan + " " + item.Ad + " " + item.Soyad,
+					Value = item.ID.ToString()
+				};
+
+				list.Add(sli);
+			}
+			return new SelectList(list, "Value", "Text");
+		}
 	}
 }

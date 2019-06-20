@@ -21,7 +21,11 @@ namespace SUTFProjeYonetimi.App_Start
 
 		/* SQL View Tanımlamaları */
 
+		public static TemelIslemler<VAkademisyen> vakademisyenIslemleri = new TemelIslemler<VAkademisyen>("vakademisyen");
+		public static TemelIslemler<VBolum> vbolumIslemleri = new TemelIslemler<VBolum>("vbolum");
+		public static TemelIslemler<VFakulte> vfakulteIslemleri = new TemelIslemler<VFakulte>("vfakulte");
 		public static TemelIslemler<VKullanici> vkullaniciIslemleri = new TemelIslemler<VKullanici>("vkullanici");
+		public static TemelIslemler<VOgrenci> vogrenciIslemleri = new TemelIslemler<VOgrenci>("vogrenci");
 		public static TemelIslemler<VProje> vprojeIslemleri = new TemelIslemler<VProje>("vproje");
 		public static TemelIslemler<VProjeOneri> vprojeOneriIslemleri = new TemelIslemler<VProjeOneri>("vprojeoneri");
 	}

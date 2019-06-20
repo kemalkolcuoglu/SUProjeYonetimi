@@ -35,9 +35,5 @@ namespace SUTFProjeYonetimi.Models
 		public bool Etkin { get; set; }
 
 		public bool Silindi { get; set; }
-
-		/* SQL View'dan gelen veriler (vogrencidanisman) */
-
-		public virtual int DanismanID { get; set; }
 	}
 }

@@ -8,6 +8,9 @@ namespace SUTFProjeYonetimi.Models
 		[Key]
 		public int ID { get; set; }
 
+		[DisplayName("Dönemi")]
+		public int DonemID { get; set; }
+
 		[DisplayName("Öğrencinin Danışmanı")]
 		public int ProjeOgrDanID { get; set; }
 

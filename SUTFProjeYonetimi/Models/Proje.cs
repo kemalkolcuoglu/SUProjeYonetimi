@@ -9,6 +9,9 @@ namespace SUTFProjeYonetimi.Models
 		[Key, DisplayName("Proje No.")]
 		public int ID { get; set; }
 
+		[DisplayName("Dönemi")]
+		public int DonemID { get; set; }
+
 		public int ProjeOneriID { get; set; }
 
 		public string ProjeNo { get; set; }
