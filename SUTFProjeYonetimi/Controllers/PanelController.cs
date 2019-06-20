@@ -132,6 +132,9 @@ namespace SUTFProjeYonetimi.Controllers
 					return View(kullaniciGiris);
 				}
 
+				Donem donem = donemIslemleri.Bul("Etkin = 1");
+
+				Session["Donem"] = donem;
 				Session["Kullanici"] = vKullanici;
 				Session.Timeout = 120;
 				return RedirectToAction(nameof(Anasayfa));
@@ -273,7 +276,7 @@ namespace SUTFProjeYonetimi.Controllers
 		[SysAdminFilter]
 		public ActionResult FakulteListesi()
 		{
-			List<VFakulte> fakulteler = vfakulteIslemleri.VeriGetir();
+			List<VFakulte> fakulteler = vfakulteIslemleri.VeriGetir("Silindi = 0");
 
 			return View(fakulteler);
 		}
@@ -362,7 +365,7 @@ namespace SUTFProjeYonetimi.Controllers
 		[HttpPost]
 		public ActionResult FakulteSil(int id, VFakulte fakulte)
 		{
-			int durum = fakulteIslemleri.Guncelle("ID = " + id, "Silidi", false, typeof(bool));
+			int durum = fakulteIslemleri.Guncelle("ID = " + id, "Silidi", true, typeof(bool));
 
 			if (durum > 0)
 				return RedirectToAction(nameof(FakulteListesi));
@@ -375,7 +378,7 @@ namespace SUTFProjeYonetimi.Controllers
 		[SysAdminFilter]
 		public ActionResult BolumListesi()
 		{
-			List<VBolum> bolumler = vbolumIslemleri.VeriGetir();
+			List<VBolum> bolumler = vbolumIslemleri.VeriGetir("Silindi = 0");
 
 			return View(bolumler);
 		}
@@ -466,7 +469,7 @@ namespace SUTFProjeYonetimi.Controllers
 		[HttpPost]
 		public ActionResult BolumSil(int id, VBolum bolum)
 		{
-			int durum = bolumIslemleri.Guncelle("ID = " + id, "Silidi", false, typeof(bool));
+			int durum = bolumIslemleri.Guncelle("ID = " + id, "Silidi", true, typeof(bool));
 
 			if (durum > 0)
 				return RedirectToAction(nameof(BolumListesi));
@@ -474,6 +477,99 @@ namespace SUTFProjeYonetimi.Controllers
 				ViewBag.Hata = "İşlem Gerçekleştirilemedi! Lütfen tekrar deneyiniz.";
 
 			return View(bolum);
+		}
+
+		#endregion
+
+		#region DonemIslemleri
+
+		[SysAdminFilter]
+		public ActionResult Donemler()
+		{
+			List<Donem> donemler = donemIslemleri.VeriGetir("Silindi = 0");
+			return View(donemler);
+		}
+
+		[SysAdminFilter]
+		public ActionResult DonemEkle()
+		{
+			return View("DonemEkleDuzenle");
+		}
+
+		[SysAdminFilter]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult DonemEkle(Donem donem)
+		{
+			if (ModelState.IsValid)
+			{
+				int durum = donemIslemleri.Ekle(donem);
+
+				if (durum > 0)
+					return RedirectToAction(nameof(Donemler));
+			}
+			return View("DonemEkleDuzenle", donem);
+		}
+
+		[SysAdminFilter]
+		public ActionResult DonemDuzenle(int? id)
+		{
+			if (id == null)
+				return RedirectToAction(nameof(Donemler));
+
+			Donem donem = donemIslemleri.Bul("ID = " + id);
+
+			if (donem == null)
+				return HttpNotFound();
+
+			return View("DonemEkleDuzenle", donem);
+		}
+
+		[SysAdminFilter]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult DonemDuzenle(int? id, Donem gelenDonem)
+		{
+			if (ModelState.IsValid)
+			{
+				Donem donem = donemIslemleri.Bul("ID = " + id);
+				donem.Ad = gelenDonem.Ad;
+				donem.BaslangicTarihi = gelenDonem.BaslangicTarihi;
+				donem.BitisTarihi = gelenDonem.BitisTarihi;
+
+				int durum = donemIslemleri.Guncelle("ID = " + id, donem);
+
+				if (durum > 0)
+					return RedirectToAction(nameof(Donemler));
+			}
+			return View("DonemEkleDuzenle", gelenDonem);
+		}
+
+		[SysAdminFilter]
+		public ActionResult DonemSil(int? id)
+		{
+			if (id == null)
+				return RedirectToAction(nameof(Donemler));
+
+			Donem donem = donemIslemleri.Bul("ID = " + id);
+
+			if (donem == null)
+				return HttpNotFound();
+
+			return View(donem);
+		}
+
+		[SysAdminFilter]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult DonemSil(int id, Donem donem)
+		{
+			int durum = donemIslemleri.Guncelle("ID = " + id, "Silindi", true, typeof(bool));
+
+			if (durum > 0)
+				return RedirectToAction(nameof(Donemler));
+
+			return View(donem);
 		}
 
 		#endregion

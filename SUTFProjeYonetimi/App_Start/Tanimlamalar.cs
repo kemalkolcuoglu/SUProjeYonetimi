@@ -8,6 +8,7 @@ namespace SUTFProjeYonetimi.App_Start
 	{
 		public static TemelIslemler<Akademisyen> akademisyenIslemleri = new TemelIslemler<Akademisyen>("akademisyen");
 		public static TemelIslemler<Bolum> bolumIslemleri = new TemelIslemler<Bolum>("bolum");
+		public static TemelIslemler<Donem> donemIslemleri = new TemelIslemler<Donem>("donem");
 		public static TemelIslemler<Duyuru> duyuruIslemleri = new TemelIslemler<Duyuru>("duyuru");
 		public static TemelIslemler<Fakulte> fakulteIslemleri = new TemelIslemler<Fakulte>("fakulte");
 		public static TemelIslemler<Kullanici> kullaniciIslemleri = new TemelIslemler<Kullanici>("kullanici");

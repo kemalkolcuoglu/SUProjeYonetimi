@@ -195,6 +195,9 @@
     <Content Include="Views\Panel\BolumSil.cshtml" />
     <Content Include="Views\Akademisyen\DanismanAtama.cshtml" />
     <Content Include="Views\Akademisyen\OgrenciDanismanListesi.cshtml" />
+    <Content Include="Views\Panel\Donemler.cshtml" />
+    <Content Include="Views\Panel\DonemEkleDuzenle.cshtml" />
+    <Content Include="Views\Panel\DonemSil.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -32,17 +32,17 @@ namespace SUTFProjeYonetimi.Controllers
 		[DanismanFilter]
 		public ActionResult Liste()
 		{
-			List<Ogrenci> ogrenciler;
+			List<VOgrenci> ogrenciler;
 			switch (AnlikOturum.Kullanici.Yetki)
 			{
 				case (int)Yetkilendirme.SystemAdmin:
-					ogrenciler = ogrenciIslemleri.VeriGetir(); break;
+					ogrenciler = vogrenciIslemleri.VeriGetir(); break;
 				case (int)Yetkilendirme.Dekan:
-					ogrenciler = ogrenciIslemleri.VeriGetir("Silindi = 0"); break;
+					ogrenciler = vogrenciIslemleri.VeriGetir("Silindi = 0"); break;
 				case (int)Yetkilendirme.BolumBaskani:
-					ogrenciler = ogrenciIslemleri.VeriGetir("Silindi = 0 AND FakulteID = " + AnlikOturum.Kullanici.AFakulteID + " AND BolumID = " + AnlikOturum.Kullanici.ABolumID); break;
+					ogrenciler = vogrenciIslemleri.VeriGetir("Silindi = 0 AND FakulteID = " + AnlikOturum.Kullanici.AFakulteID + " AND BolumID = " + AnlikOturum.Kullanici.ABolumID); break;
 				case (int)Yetkilendirme.Danisman:
-					ogrenciler = ogrenciIslemleri.VeriGetirSQL("Select * From vogrenci Where Silindi = 0 AND DanismanID = " + AnlikOturum.Kullanici.NitelikID); break;
+					ogrenciler = vogrenciIslemleri.VeriGetir("Silindi = 0 AND DanismanID = " + AnlikOturum.Kullanici.NitelikID); break;
 				case (int)Yetkilendirme.Ogrenci:
 					return RedirectToAction("Anasayfa", "Panel");
 				default: return HttpNotFound();
@@ -419,44 +419,5 @@ namespace SUTFProjeYonetimi.Controllers
 		}
 
 		#endregion
-
-		//[OgrenciFilter]
-		//public ActionResult RaporTeslim(int? id)
-		//{
-		//	if (id == null)
-		//		return RedirectToAction("Anasayfa", "Panel");
-
-		//	Proje proje = projeIslemleri.Bul("ID = " + id);
-
-		//	if (proje == null)
-		//		return HttpNotFound();
-
-		//	ViewData["Proje"] = proje;
-
-		//	return View();
-		//}
-
-		//[HttpPost]
-		//[OgrenciFilter]
-		//[ValidateAntiForgeryToken]
-		//public ActionResult RaporTeslim(int id, HttpPostedFileBase rapor)
-		//{
-		//	try
-		//	{
-		//		if (rapor.ContentLength > 0)
-		//		{
-		//			string _FileName = Path.GetFileName(rapor.FileName);
-		//			string _path = Path.Combine(Server.MapPath("~/Files"), _FileName);
-		//			rapor.SaveAs(_path);
-		//		}
-		//		ViewBag.Message = "Dosya Yükleme İşlemi Başarılı!";
-		//		return View();
-		//	}
-		//	catch
-		//	{
-		//		ViewBag.Hata = "Dosya Yükleme İşlemi Başarısız!";
-		//		return View();
-		//	}
-		//}
 	}
 }

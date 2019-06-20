@@ -1,0 +1,71 @@
+﻿@model SUTFProjeYonetimi.Models.Donem
+@{
+	ViewBag.Title = "Dönem İşlemleri";
+}
+
+<div id="ribbon">
+	<ol class="breadcrumb">
+		<li>Dönem</li>
+		<li>Dönem İşlemleri</li>
+	</ol>
+</div>
+<div id="content">
+	<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-bottom:25px">
+		<div class="jarviswidget jarviswidget-color-red" id="wid-id-1" data-widget-editbutton="false" data-widget-custombutton="false">
+			<header>
+				<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+				<h2>Dönem Formu</h2>
+			</header>
+			<div class="container-fluid">
+				<div class="jarviswidget-editbox"></div>
+				<div class="widget-body no-padding">
+					@using (Html.BeginForm())
+					{
+						@Html.AntiForgeryToken()
+						<div style="padding-bottom:10px"></div>
+						<div class="form-horizontal col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+							<div class="form-group">
+								@Html.LabelFor(model => model.Ad, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-2 col-xs-2" })
+								<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+									@Html.EditorFor(model => model.Ad, new { htmlAttributes = new { @class = "form-control", placeholder = "Dönem Adı" } })
+									@Html.ValidationMessageFor(model => model.Ad, "", new { @class = "text-danger" })
+								</div>
+							</div>
+							<div class="form-group">
+								@Html.LabelFor(model => model.BaslangicTarihi, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-2 col-xs-2" })
+								<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+									@Html.TextBoxFor(model => model.BaslangicTarihi, new { @class = "form-control datepicker", placeholder = "Başlangıç Tarihi" })
+									@Html.ValidationMessageFor(model => model.BaslangicTarihi, "", new { @class = "text-danger" })
+								</div>
+							</div>
+							<div class="form-group">
+								@Html.LabelFor(model => model.BitisTarihi, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-2 col-xs-2" })
+								<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+									@Html.TextBoxFor(model => model.BitisTarihi, new { @class = "form-control datepicker", placeholder = "Bitiş Tarihi" })
+									@Html.ValidationMessageFor(model => model.BitisTarihi, "", new { @class = "text-danger" })
+								</div>
+							</div>
+							<div class="form-group">
+								@Html.LabelFor(model => model.Etkin, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-2 col-xs-2" })
+								<div class="col-md-1">
+									<div class="smart-form">
+										<label class="toggle">
+											@Html.CheckBoxFor(model => model.Etkin, new { @class = "form-control" })
+											<i data-swchon-text="Evet" data-swchoff-text="Hayır"></i>
+										</label>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-md-offset-2 col-md-10">
+									<p><button type="submit" class="btn btn-success"><i class="fa fa-save"></i>  Onayla</button> | @Html.ActionLink("Listeye Dön", "Duyuru", null, new { @class = "btn btn-primary" })</p>
+								</div>
+							</div>
+						</div>
+					}
+				</div>
+			</div>
+		</div>
+	</article>
+</div>
