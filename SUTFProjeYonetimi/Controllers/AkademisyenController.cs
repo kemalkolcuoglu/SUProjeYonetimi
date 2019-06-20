@@ -2,6 +2,7 @@
 using SUTFProjeYonetimi.Models;
 using SUTFProjeYonetimi.Models.EkModel;
 using SUTFProjeYonetimi.Models.Enum;
+using SUTFProjeYonetimi.Models.ViewModel;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using static SUTFProjeYonetimi.App_Start.Tanimlamalar;
@@ -146,10 +147,73 @@ namespace SUTFProjeYonetimi.Controllers
 			return View();
 		}
 
+		#region OgrenciDanismanIslemleri
+
+		public ActionResult OgrenciDanismanListesi()
+		{
+			List<VOgrenciDanisman> ogrenciDanisman = vogrenciDanismanIslemleri.VeriGetir("FakulteID = " + AnlikOturum.Kullanici.OFakulteID + " And BolumID = " + AnlikOturum.Kullanici.OBolumID);
+
+			return View(ogrenciDanisman);
+		}
+
 		public ActionResult DanismanAtama()
 		{
-			// TODO : Danışman Atama Yapılacak
+			ViewData["Akademisyenler"] = SLOlusturma.AkademisyenListele();
+			ViewData["Ogrenciler"] = SLOlusturma.OgrenciListele();
+
 			return View();
 		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult DanismanAtama(OgrenciDanisman ogrenciDanisman)
+		{
+			if (ModelState.IsValid)
+			{
+				ogrenciDanisman.DonemID = AnlikOturum.Donem.ID;
+				int durum = ogrenciDanismanIslemleri.Ekle(ogrenciDanisman);
+
+				if (durum > 0)
+					return RedirectToAction(nameof(OgrenciDanismanListesi));
+			}
+			ViewData["Akademisyenler"] = SLOlusturma.AkademisyenListele();
+			ViewData["Ogrenciler"] = SLOlusturma.OgrenciListele();
+			return View(ogrenciDanisman);
+		}
+
+		public ActionResult DanismanDuzenle(int? id)
+		{
+			if (id == null)
+				return RedirectToAction(nameof(OgrenciDanismanListesi));
+
+			VOgrenciDanisman ogrenciDanisman = vogrenciDanismanIslemleri.Bul("ID = " + id);
+
+			if (ogrenciDanisman == null)
+				return HttpNotFound();
+
+			return View("DanismanAtama", ogrenciDanisman);
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult DanismanDuzenle(int id, OgrenciDanisman gelenOgrDan)
+		{
+			if (ModelState.IsValid)
+			{
+				OgrenciDanisman ogrenciDanisman = ogrenciDanismanIslemleri.Bul("ID = " + id);
+				ogrenciDanisman.DanismanID = gelenOgrDan.DanismanID;
+				ogrenciDanisman.OgrenciID = gelenOgrDan.OgrenciID;
+
+				int durum = ogrenciDanismanIslemleri.Guncelle("ID = " + id, ogrenciDanisman);
+
+				if (durum > 0)
+					return RedirectToAction(nameof(OgrenciDanismanListesi));
+			}
+			ViewData["Akademisyenler"] = SLOlusturma.AkademisyenListele();
+			ViewData["Ogrenciler"] = SLOlusturma.OgrenciListele();
+			return View("DanismanAtama", gelenOgrDan);
+		} 
+
+		#endregion
 	}
 }

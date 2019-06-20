@@ -146,6 +146,7 @@
     <Compile Include="Models\ViewModel\VFakulte.cs" />
     <Compile Include="Models\ViewModel\VKullanici.cs" />
     <Compile Include="Models\ViewModel\VOgrenci.cs" />
+    <Compile Include="Models\ViewModel\VOgrenciDanisman.cs" />
     <Compile Include="Models\ViewModel\VProje.cs" />
     <Compile Include="Models\ViewModel\VProjeOneri.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -192,6 +193,8 @@
     <Content Include="Views\Panel\BolumListesi.cshtml" />
     <Content Include="Views\Panel\BolumEkleDuzenle.cshtml" />
     <Content Include="Views\Panel\BolumSil.cshtml" />
+    <Content Include="Views\Akademisyen\DanismanAtama.cshtml" />
+    <Content Include="Views\Akademisyen\OgrenciDanismanListesi.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

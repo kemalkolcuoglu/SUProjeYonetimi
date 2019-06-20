@@ -9,6 +9,11 @@ namespace SUTFProjeYonetimi.Models.EkModel
 			get { return Get<VKullanici>("Kullanici"); }
 		}
 
+		public static Donem Donem
+		{
+			get { return Get<Donem>("Donem"); }
+		}
+
 		public static void Set<T>(string key, T obj)
 		{
 			System.Web.HttpContext.Current.Session[key] = obj;

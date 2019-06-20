@@ -24,6 +24,23 @@ namespace SUTFProjeYonetimi.Models.EkModel
 			return new SelectList(list, "Value", "Text");
 		}
 
+		public static SelectList OgrenciListele()
+		{
+			List<SelectListItem> list = new List<SelectListItem>();
+
+			foreach (var item in ogrenciIslemleri.VeriGetir("FakulteID = " + AnlikOturum.Kullanici.OFakulteID + " And BolumID = " + AnlikOturum.Kullanici.OBolumID))
+			{
+				SelectListItem sli = new SelectListItem()
+				{
+					Text =  item.OgrenciNo + "-" + item.Ad + " " + item.Soyad,
+					Value = item.ID.ToString()
+				};
+
+				list.Add(sli);
+			}
+			return new SelectList(list, "Value", "Text");
+		}
+
 		public static SelectList FakulteListele()
 		{
 			List<SelectListItem> list = new List<SelectListItem>();
