@@ -37,7 +37,7 @@
 				<a href="javascript:void(0);" id="show-shortcut">
 					<img src="~/Assets/img/avatars/sunny.png" class="online" />
 					<span>
-						@SUTFProjeYonetimi.Models.EkModel.AnlikOturum.Kullanici.KullaniciAdi
+						@(SUTFProjeYonetimi.Models.EkModel.AnlikOturum.Kullanici.Akademisyen != null ? SUTFProjeYonetimi.Models.EkModel.AnlikOturum.Kullanici.Akademisyen.Unvan + " " + SUTFProjeYonetimi.Models.EkModel.AnlikOturum.Kullanici.Akademisyen.Ad + " " + SUTFProjeYonetimi.Models.EkModel.AnlikOturum.Kullanici.Akademisyen.Soyad : SUTFProjeYonetimi.Models.EkModel.AnlikOturum.Kullanici.Ogrenci.Ad + " " + SUTFProjeYonetimi.Models.EkModel.AnlikOturum.Kullanici.Ogrenci.Soyad)
 					</span>
 					<i class="fa fa-angle-down"></i>
 				</a>

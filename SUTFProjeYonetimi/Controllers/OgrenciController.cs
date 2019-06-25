@@ -38,11 +38,11 @@ namespace SUTFProjeYonetimi.Controllers
 				case (int)Yetkilendirme.SystemAdmin:
 					ogrenciler = vogrenciIslemleri.VeriGetir(); break;
 				case (int)Yetkilendirme.Dekan:
-					ogrenciler = vogrenciIslemleri.VeriGetir("Silindi = 0"); break;
+					ogrenciler = vogrenciIslemleri.VeriGetir("FakulteID = " + AnlikOturum.Kullanici.Akademisyen.FakulteID + " And Silindi = 0"); break;
 				case (int)Yetkilendirme.BolumBaskani:
-					ogrenciler = vogrenciIslemleri.VeriGetir("Silindi = 0 AND FakulteID = " + AnlikOturum.Kullanici.AFakulteID + " AND BolumID = " + AnlikOturum.Kullanici.ABolumID); break;
+					ogrenciler = vogrenciIslemleri.VeriGetir("Silindi = 0 AND FakulteID = " + AnlikOturum.Kullanici.Akademisyen.FakulteID + " AND BolumID = " + AnlikOturum.Kullanici.Akademisyen.BolumID); break;
 				case (int)Yetkilendirme.Danisman:
-					ogrenciler = vogrenciIslemleri.VeriGetir("Silindi = 0 AND DanismanID = " + AnlikOturum.Kullanici.NitelikID); break;
+					ogrenciler = vogrenciIslemleri.VeriGetir("Silindi = 0 AND DanismanID = " + AnlikOturum.Kullanici.Akademisyen.ID); break;
 				case (int)Yetkilendirme.Ogrenci:
 					return RedirectToAction("Anasayfa", "Panel");
 				default: return HttpNotFound();
@@ -56,20 +56,19 @@ namespace SUTFProjeYonetimi.Controllers
 			if (id == null)
 				return RedirectToAction(nameof(Liste));
 
-			Ogrenci ogrenci;
+			VOgrenci ogrenci;
 			switch (AnlikOturum.Kullanici.Yetki)
 			{
 				case (int)Yetkilendirme.SystemAdmin:
-					ogrenci = ogrenciIslemleri.Bul("ID = " + id); break;
+					ogrenci = vogrenciIslemleri.Bul("ID = " + id); break;
 				case (int)Yetkilendirme.Dekan:
-					ogrenci = ogrenciIslemleri.Bul("ID = " + id + " AND Silindi = 0");
+					ogrenci = vogrenciIslemleri.Bul("FakulteID = " + AnlikOturum.Kullanici.Akademisyen.FakulteID + " And ID = " + id + " AND Silindi = 0");
 					break;
 				case (int)Yetkilendirme.BolumBaskani:
-					ogrenci = ogrenciIslemleri.Bul("ID = " + id + " AND Silindi = 0 AND FakulteID = " + AnlikOturum.Kullanici.AFakulteID + " AND BolumID = " + AnlikOturum.Kullanici.ABolumID);
+					ogrenci = vogrenciIslemleri.Bul("FakulteID = " + AnlikOturum.Kullanici.Akademisyen.FakulteID + " And BolumID = " + AnlikOturum.Kullanici.Akademisyen.BolumID + " And ID = " + id + " AND Silindi = 0");
 					break;
 				case (int)Yetkilendirme.Danisman:
-					List<Ogrenci> ogrencis = ogrenciIslemleri.VeriGetirSQL("Select * From vogrencidanisman Where ID = " + id + " AND Silindi = 0 AND DanismanID = " + AnlikOturum.Kullanici.NitelikID);
-					ogrenci = (ogrencis.Count == 1 ? ogrencis[0] : null);
+					ogrenci = vogrenciIslemleri.Bul("ID = " + id + " AND Silindi = 0 AND DanismanID = " + AnlikOturum.Kullanici.Akademisyen.ID);
 					break;
 				case (int)Yetkilendirme.Ogrenci:
 					return RedirectToAction("Anasayfa", "Panel");
@@ -118,18 +117,17 @@ namespace SUTFProjeYonetimi.Controllers
 			if (id == null)
 				return RedirectToAction(nameof(Liste));
 
-			Ogrenci ogrenci;
+			VOgrenci ogrenci;
 			switch (AnlikOturum.Kullanici.Yetki)
 			{
 				case (int)Yetkilendirme.SystemAdmin:
 				case (int)Yetkilendirme.Dekan:
-					ogrenci = ogrenciIslemleri.Bul("ID = " + id); break;
+					ogrenci = vogrenciIslemleri.Bul("ID = " + id); break;
 				case (int)Yetkilendirme.BolumBaskani:
-					ogrenci = ogrenciIslemleri.Bul("ID = " + id + " AND FakulteID = " + AnlikOturum.Kullanici.AFakulteID + " AND BolumID = " + AnlikOturum.Kullanici.ABolumID);
+					ogrenci = vogrenciIslemleri.Bul("ID = " + id + " AND FakulteID = " + AnlikOturum.Kullanici.Akademisyen.FakulteID + " AND BolumID = " + AnlikOturum.Kullanici.Akademisyen.BolumID);
 					break;
 				case (int)Yetkilendirme.Danisman:
-					List<Ogrenci> ogrencis = ogrenciIslemleri.VeriGetir("Select * From vogrencidanisman Where ID = " + id + "  AND DanismanID = " + AnlikOturum.Kullanici.NitelikID);
-					ogrenci = (ogrencis.Count == 1 ? ogrencis[0] : null);
+					ogrenci = vogrenciIslemleri.Bul("ID = " + id + " AND Silindi = 0 AND DanismanID = " + AnlikOturum.Kullanici.Akademisyen.ID);
 					break;
 				default: return HttpNotFound();
 			}
@@ -148,7 +146,7 @@ namespace SUTFProjeYonetimi.Controllers
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		[DanismanFilter]
-		public ActionResult Duzenle(int id, Ogrenci gelenOgrenci)
+		public ActionResult Duzenle(int id, VOgrenci gelenOgrenci)
 		{
 			if (ModelState.IsValid)
 			{
@@ -161,6 +159,7 @@ namespace SUTFProjeYonetimi.Controllers
 				ogrenci.Sinif = gelenOgrenci.Sinif;
 				ogrenci.Soyad = gelenOgrenci.Soyad;
 				ogrenci.TCKNO = gelenOgrenci.TCKNO;
+				ogrenci.Sifre = gelenOgrenci.Sifre;
 
 				int durum = ogrenciIslemleri.Guncelle("ID = " + id, ogrenci);
 				if (durum > 0)
@@ -178,17 +177,16 @@ namespace SUTFProjeYonetimi.Controllers
 			if (id == null)
 				return RedirectToAction(nameof(Liste));
 
-			Ogrenci ogrenci;
+			VOgrenci ogrenci;
 			switch (AnlikOturum.Kullanici.Yetki)
 			{
 				case (int)Yetkilendirme.SystemAdmin:
 				case (int)Yetkilendirme.Dekan:
-					ogrenci = ogrenciIslemleri.Bul("ID = " + id + " And Silindi = 0"); break;
+					ogrenci = vogrenciIslemleri.Bul("ID = " + id + " And Silindi = 0"); break;
 				case (int)Yetkilendirme.BolumBaskani:
-					ogrenci = ogrenciIslemleri.Bul("ID = " + id + " AND FakulteID = " + AnlikOturum.Kullanici.AFakulteID + " AND BolumID = " + AnlikOturum.Kullanici.ABolumID + " And Silindi = 0"); break;
+					ogrenci = vogrenciIslemleri.Bul("ID = " + id + " AND FakulteID = " + AnlikOturum.Kullanici.Akademisyen.FakulteID + " AND BolumID = " + AnlikOturum.Kullanici.Akademisyen.BolumID + " And Silindi = 0"); break;
 				case (int)Yetkilendirme.Danisman:
-					List<Ogrenci> ogrencis = ogrenciIslemleri.VeriGetir("Select * From vogrencidanisman Where ID = " + id + "  AND DanismanID = " + AnlikOturum.Kullanici.NitelikID + " And Silindi = 0");
-					ogrenci = (ogrencis.Count == 1 ? ogrencis[0] : null);
+					ogrenci = vogrenciIslemleri.Bul("ID = " + id + "  AND DanismanID = " + AnlikOturum.Kullanici.Akademisyen.ID + " And Silindi = 0");
 					break;
 				default: return HttpNotFound();
 			}
@@ -230,10 +228,10 @@ namespace SUTFProjeYonetimi.Controllers
 		[OgrenciFilter]
 		public ActionResult Proje()
 		{
-			List<VProje> projeler = vprojeIslemleri.VeriGetir("OgrenciID = " + AnlikOturum.Kullanici.NitelikID);
-			List<VProjeOneri> projeOnerileri = vprojeOneriIslemleri.VeriGetir("OgrenciID = " + AnlikOturum.Kullanici.NitelikID);
+			List<VProje> projeler = vprojeIslemleri.VeriGetir("OgrenciID = " + AnlikOturum.Kullanici.Ogrenci.ID);
+			//List<VProjeOneri> projeOnerileri = vprojeOneriIslemleri.VeriGetir("OgrenciID = " + AnlikOturum.Kullanici.NitelikID);
 
-			ViewData["ProjeOnerileri"] = projeOnerileri;
+			//ViewData["ProjeOnerileri"] = projeOnerileri;
 
 			return View(projeler);
 		}

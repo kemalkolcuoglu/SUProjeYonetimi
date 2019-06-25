@@ -21,12 +21,12 @@ namespace SUTFProjeYonetimi.Controllers
 				case (int)Yetkilendirme.SystemAdmin:
 					duyurular = duyuruIslemleri.VeriGetir("Etkin = 1 Order By ID Desc Limit 10"); break;
 				case (int)Yetkilendirme.Dekan:
-					duyurular = duyuruIslemleri.VeriGetir("FakulteID = " + AnlikOturum.Kullanici.AFakulteID + " And Etkin = 1 Order By ID Desc Limit 10"); break;
+					duyurular = duyuruIslemleri.VeriGetir("FakulteID = " + AnlikOturum.Kullanici.Akademisyen.FakulteID + " And Etkin = 1 Order By ID Desc Limit 10"); break;
 				case (int)Yetkilendirme.BolumBaskani:
 				case (int)Yetkilendirme.Danisman:
-					duyurular = duyuruIslemleri.VeriGetir("FakulteID = " + AnlikOturum.Kullanici.AFakulteID + " And BolumID = " + AnlikOturum.Kullanici.ABolumID + " And Etkin = 1 Order By ID Desc Limit 10"); break;
+					duyurular = duyuruIslemleri.VeriGetir("FakulteID = " + AnlikOturum.Kullanici.Akademisyen.FakulteID + " And BolumID = " + AnlikOturum.Kullanici.Akademisyen.BolumID + " And Etkin = 1 Order By ID Desc Limit 10"); break;
 				case (int)Yetkilendirme.Ogrenci:
-					duyurular = duyuruIslemleri.VeriGetir("FakulteID = " + AnlikOturum.Kullanici.OFakulteID + " And BolumID = " + AnlikOturum.Kullanici.OBolumID + " And Etkin = 1 Order By ID Desc Limit 10"); break;
+					duyurular = duyuruIslemleri.VeriGetir("FakulteID = " + AnlikOturum.Kullanici.Ogrenci.FakulteID + " And BolumID = " + AnlikOturum.Kullanici.Ogrenci.BolumID + " And Etkin = 1 Order By ID Desc Limit 10"); break;
 				default:
 					duyurular = new List<Duyuru>(); break;
 			}
@@ -48,42 +48,42 @@ namespace SUTFProjeYonetimi.Controllers
 			return View(duyuru);
 		}
 
-		[AnlikOturumFilter]
-		public ActionResult Profil()
-		{
-			Kullanici kullanici = kullaniciIslemleri.Bul("ID = " + AnlikOturum.Kullanici.ID);
+		//[AnlikOturumFilter]
+		//public ActionResult Profil()
+		//{
+		//	Kullanici kullanici = kullaniciIslemleri.Bul("ID = " + AnlikOturum.Kullanici.ID);
 
-			if (kullanici == null)
-				return HttpNotFound();
+		//	if (kullanici == null)
+		//		return HttpNotFound();
 
-			return View(kullanici);
-		}
+		//	return View(kullanici);
+		//}
 
-		[AnlikOturumFilter]
-		public ActionResult ProfilDuzenle()
-		{
-			Kullanici kullanici = kullaniciIslemleri.Bul("ID = " + AnlikOturum.Kullanici.ID);
+		//[AnlikOturumFilter]
+		//public ActionResult ProfilDuzenle()
+		//{
+		//	Kullanici kullanici = kullaniciIslemleri.Bul("ID = " + AnlikOturum.Kullanici.ID);
 
-			if (kullanici == null)
-				return HttpNotFound();
+		//	if (kullanici == null)
+		//		return HttpNotFound();
 
-			return View(kullanici);
-		}
+		//	return View(kullanici);
+		//}
 
-		[HttpPost]
-		[AnlikOturumFilter]
-		[ValidateAntiForgeryToken]
-		public ActionResult ProfilDuzenle(string sifre)
-		{
-			if (ModelState.IsValid)
-			{
-				int durum = kullaniciIslemleri.Guncelle("ID = " + AnlikOturum.Kullanici.ID, "Sifre", sifre, typeof(string));
+		//[HttpPost]
+		//[AnlikOturumFilter]
+		//[ValidateAntiForgeryToken]
+		//public ActionResult ProfilDuzenle(string sifre)
+		//{
+		//	if (ModelState.IsValid)
+		//	{
+		//		int durum = kullaniciIslemleri.Guncelle("ID = " + AnlikOturum.Kullanici.ID, "Sifre", sifre, typeof(string));
 
-				if (durum > 0)
-					return RedirectToAction(nameof(Profil));
-			}
-			return View();
-		}
+		//		if (durum > 0)
+		//			return RedirectToAction(nameof(Profil));
+		//	}
+		//	return View();
+		//}
 
 		public ActionResult GirisYap()
 		{
@@ -99,34 +99,41 @@ namespace SUTFProjeYonetimi.Controllers
 			Kullanici kullanici;
 			if (ModelState.IsValid)
 			{
-				kullanici = kullaniciIslemleri.Bul("KullaniciAdi = '" + kullaniciGiris.OgrenciNo + "' And Sifre = " + kullaniciGiris.Sifre);
+				Ogrenci ogrenci = null;
+				Akademisyen akademisyen = null;
 
-				if (kullanici == null)
+				ogrenci = ogrenciIslemleri.Bul("OgrenciNo = '" + kullaniciGiris.OgrenciNo + "' And Sifre = '" + kullaniciGiris.Sifre + "'");
+
+				if (ogrenci == null)
 				{
-					ViewBag.Hata = "Girdiğiniz değerlerle eşleşen bir kullanıcı bulunamadı. Lütfen tekrar deneyiniz...";
-					return View(kullaniciGiris);
+					akademisyen = akademisyenIslemleri.Bul("TCKNO = '" + kullaniciGiris.OgrenciNo + "' And Sifre = '" + kullaniciGiris.Sifre + "'");
+
+					if (akademisyen == null)
+					{
+						ViewBag.Hata = "Girdiğiniz değerlerle eşleşen bir kullanıcı bulunamadı. Lütfen tekrar deneyiniz...";
+						return View(kullaniciGiris);
+					}
+					else
+					{
+						kullanici = new Kullanici()
+						{
+							Akademisyen = akademisyen,
+							Ogrenci = null,
+							Yetki = akademisyen.Yetki
+						};
+					}
+				}
+				else
+				{
+					kullanici = new Kullanici()
+					{
+						Akademisyen = null,
+						Ogrenci = ogrenci,
+						Yetki = (int)Yetkilendirme.Ogrenci
+					};
 				}
 
-				kullanici.SonErisimTarihi = DateTime.Now;
-				kullaniciIslemleri.Guncelle("ID = " + kullanici.ID, "SonErisimTarihi", kullanici.SonErisimTarihi, typeof(DateTime));
-
-				VKullanici vKullanici;
-
-				if (kullanici.Yetki > (int)Yetkilendirme.SystemAdmin)
-					vKullanici = vkullaniciIslemleri.Bul("ID = " + kullanici.ID);
-				else
-					vKullanici = new VKullanici()
-					{
-						Yetki = kullanici.Yetki,
-						Etkin = kullanici.Etkin,
-						ID = kullanici.ID,
-						KullaniciAdi = kullanici.KullaniciAdi,
-						NitelikID = kullanici.NitelikID,
-						Sifre = kullanici.Sifre,
-						SonErisimTarihi = kullanici.SonErisimTarihi
-					};
-
-				if(vKullanici == null)
+				if (kullanici == null)
 				{
 					ViewBag.Hata = "Girdiğiniz değerlerle eşleşen bir kullanıcı bulunamadı. Lütfen tekrar deneyiniz...";
 					return View(kullaniciGiris);
@@ -135,7 +142,7 @@ namespace SUTFProjeYonetimi.Controllers
 				Donem donem = donemIslemleri.Bul("Etkin = 1");
 
 				Session["Donem"] = donem;
-				Session["Kullanici"] = vKullanici;
+				Session["Kullanici"] = kullanici;
 				Session.Timeout = 120;
 				return RedirectToAction(nameof(Anasayfa));
 			}
@@ -162,10 +169,10 @@ namespace SUTFProjeYonetimi.Controllers
 				case (int)Yetkilendirme.SystemAdmin:
 					duyurular = duyuruIslemleri.VeriGetir(); break;
 				case (int)Yetkilendirme.Dekan:
-					duyurular = duyuruIslemleri.VeriGetir("FakulteID = " + AnlikOturum.Kullanici.AFakulteID); break;
+					duyurular = duyuruIslemleri.VeriGetir("FakulteID = " + AnlikOturum.Kullanici.Akademisyen.FakulteID); break;
 				case (int)Yetkilendirme.BolumBaskani:
 				case (int)Yetkilendirme.Danisman:
-					duyurular = duyuruIslemleri.VeriGetir("FakulteID = " + AnlikOturum.Kullanici.AFakulteID + " AND BolumID = " + AnlikOturum.Kullanici.ABolumID); break;
+					duyurular = duyuruIslemleri.VeriGetir("FakulteID = " + AnlikOturum.Kullanici.Akademisyen.FakulteID + " AND BolumID = " + AnlikOturum.Kullanici.Akademisyen.BolumID); break;
 				case (int)Yetkilendirme.Ogrenci:
 					return RedirectToAction("Anasayfa", "Panel");
 				default: return HttpNotFound();
@@ -598,5 +605,124 @@ namespace SUTFProjeYonetimi.Controllers
 		}
 
 		#endregion
+
+		/* #region KullaniciIslemleri
+
+		[SysAdminFilter]
+		public ActionResult Kullanicilar()
+		{
+			List<Kullanici> kullanicilar = kullaniciIslemleri.VeriGetir("Silindi = 0");
+			return View(kullanicilar);
+		}
+
+		[SysAdminFilter]
+		public ActionResult KullaniciEkle()
+		{
+			ViewData["Yetkiler"] = SLOlusturma.YetkiListele();
+			ViewData["Akademisyen"] = SLOlusturma.EklenecekKullaniciListele();
+			return View("KullaniciEkleDuzenle");
+		}
+
+		[SysAdminFilter]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult KullaniciEkle(Kullanici kullanici)
+		{
+			if (ModelState.IsValid)
+			{
+				kullanici.Silindi = false;
+				int durum = kullaniciIslemleri.Ekle(kullanici);
+
+				if (durum > 0)
+					return RedirectToAction(nameof(Kullanicilar));
+			}
+			ViewData["Yetkiler"] = SLOlusturma.YetkiListele();
+			ViewData["Akademisyen"] = SLOlusturma.EklenecekKullaniciListele();
+			return View("KullaniciEkleDuzenle", kullanici);
+		}
+
+		[SysAdminFilter]
+		public ActionResult KullaniciDuzenle(int? id)
+		{
+			if (id == null)
+				return RedirectToAction(nameof(Kullanicilar));
+
+			Kullanici kullanici = kullaniciIslemleri.Bul("ID = " + id);
+
+			if (kullanici == null)
+				return HttpNotFound();
+
+			ViewData["Yetkiler"] = SLOlusturma.YetkiListele();
+			ViewData["Akademisyen"] = SLOlusturma.EklenecekKullaniciListele();
+			return View("KullaniciEkleDuzenle", kullanici);
+		}
+
+		[SysAdminFilter]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult KullaniciDuzenle(int id, Kullanici gelenKullanici)
+		{
+			if (ModelState.IsValid)
+			{
+				Kullanici kullanici = kullaniciIslemleri.Bul("ID = " + id);
+				kullanici.Etkin = gelenKullanici.Etkin;
+				kullanici.KullaniciAdi = gelenKullanici.KullaniciAdi;
+				kullanici.NitelikID = gelenKullanici.NitelikID;
+				kullanici.Sifre = gelenKullanici.Sifre;
+				kullanici.Yetki = gelenKullanici.Yetki;
+
+				int durum = kullaniciIslemleri.Guncelle("ID = " + id, kullanici);
+
+				if (durum > 0)
+					return RedirectToAction(nameof(Kullanicilar));
+			}
+			ViewData["Yetkiler"] = SLOlusturma.YetkiListele();
+			ViewData["Akademisyen"] = SLOlusturma.EklenecekKullaniciListele();
+			return View("KullaniciEkleDuzenle", gelenKullanici);
+		}
+
+		[SysAdminFilter]
+		public ActionResult KullaniciSil(int? id)
+		{
+			if (id == null)
+				return RedirectToAction(nameof(Kullanicilar));
+
+			Kullanici kullanici = kullaniciIslemleri.Bul("ID = " + id);
+
+			if (kullanici == null)
+				return HttpNotFound();
+
+			return View(kullanici);
+		}
+
+		[SysAdminFilter]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult KullaniciSil(int id, Kullanici kullanici)
+		{
+			int durum = kullaniciIslemleri.Guncelle("ID = " + id, "Silindi", true, typeof(bool));
+
+			if(durum > 0)
+				return RedirectToAction(nameof(Kullanicilar));
+
+			return View();
+		}
+
+		public ActionResult YetkiyeGoreKullanici(int yetki)
+		{
+			if (yetki == (int)Yetkilendirme.Ogrenci)
+			{
+				List<Ogrenci> ogrenciler = ogrenciIslemleri.VeriGetir("Silindi = 0 And Etkin = 1");
+				return Json(ogrenciler, JsonRequestBehavior.AllowGet);
+			}
+			else if (yetki <= (int)Yetkilendirme.Danisman)
+			{
+				List<Akademisyen> akademisyenler = akademisyenIslemleri.VeriGetir("Silindi = 0 And Etkin = 1");
+				return Json(akademisyenler, JsonRequestBehavior.AllowGet);
+			}
+			return null;
+		}
+
+		#endregion */ 
 	}
 }

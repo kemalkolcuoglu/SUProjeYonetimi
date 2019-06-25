@@ -23,7 +23,7 @@ namespace SUTFProjeYonetimi.Controllers
 				case (int)Yetkilendirme.Dekan:
 					akademisyen = akademisyenIslemleri.VeriGetir("Silindi = 0"); break;
 				case (int)Yetkilendirme.BolumBaskani:
-					akademisyen = akademisyenIslemleri.VeriGetir("Silindi = 0 AND FakulteID = " + AnlikOturum.Kullanici.AFakulteID + " AND BolumID = " + AnlikOturum.Kullanici.ABolumID); break;
+					akademisyen = akademisyenIslemleri.VeriGetir("Silindi = 0 AND FakulteID = " + AnlikOturum.Kullanici.Akademisyen.FakulteID + " AND BolumID = " + AnlikOturum.Kullanici.Akademisyen.BolumID); break;
 				case (int)Yetkilendirme.Danisman:
 				case (int)Yetkilendirme.Ogrenci:
 					return RedirectToAction("Anasayfa", "Panel");
@@ -46,7 +46,7 @@ namespace SUTFProjeYonetimi.Controllers
 					akademisyen = akademisyenIslemleri.Bul("ID = " + id + " AND Silindi = 0");
 					break;
 				case (int)Yetkilendirme.BolumBaskani:
-					akademisyen = akademisyenIslemleri.Bul("ID = " + id + " AND Silindi = 0 AND FakulteID = " + AnlikOturum.Kullanici.AFakulteID + " AND BolumID = " + AnlikOturum.Kullanici.ABolumID);
+					akademisyen = akademisyenIslemleri.Bul("ID = " + id + " AND Silindi = 0 AND FakulteID = " + AnlikOturum.Kullanici.Akademisyen.FakulteID + " AND BolumID = " + AnlikOturum.Kullanici.Akademisyen.BolumID);
 					break;
 				case (int)Yetkilendirme.Danisman:
 				case (int)Yetkilendirme.Ogrenci:
@@ -151,7 +151,7 @@ namespace SUTFProjeYonetimi.Controllers
 
 		public ActionResult OgrenciDanismanListesi()
 		{
-			List<VOgrenciDanisman> ogrenciDanisman = vogrenciDanismanIslemleri.VeriGetir("FakulteID = " + AnlikOturum.Kullanici.OFakulteID + " And BolumID = " + AnlikOturum.Kullanici.OBolumID);
+			List<VOgrenciDanisman> ogrenciDanisman = vogrenciDanismanIslemleri.VeriGetir("FakulteID = " + AnlikOturum.Kullanici.Akademisyen.FakulteID + " And BolumID = " + AnlikOturum.Kullanici.Akademisyen.BolumID);
 
 			return View(ogrenciDanisman);
 		}

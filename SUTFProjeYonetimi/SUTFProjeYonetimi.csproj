@@ -103,7 +103,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -130,6 +132,7 @@
     <Compile Include="Models\EkModel\KullaniciGiris.cs" />
     <Compile Include="Models\EkModel\SLOlusturma.cs" />
     <Compile Include="Models\Enum\OgrenimTipi.cs" />
+    <Compile Include="Models\Enum\ProjeDurumu.cs" />
     <Compile Include="Models\Enum\Yetkilendirme.cs" />
     <Compile Include="Models\Enum\ProjeOneriDurumu.cs" />
     <Compile Include="Models\Fakulte.cs" />
@@ -141,10 +144,9 @@
     <Compile Include="Models\OgrenciDanisman.cs" />
     <Compile Include="Models\ProjeOgrenciDanisman.cs" />
     <Compile Include="Models\ProjeOneri.cs" />
-    <Compile Include="Models\ViewModel\VAkademisyen.cs" />
+    <Compile Include="Models\ProjeTipi.cs" />
     <Compile Include="Models\ViewModel\VBolum.cs" />
     <Compile Include="Models\ViewModel\VFakulte.cs" />
-    <Compile Include="Models\ViewModel\VKullanici.cs" />
     <Compile Include="Models\ViewModel\VOgrenci.cs" />
     <Compile Include="Models\ViewModel\VOgrenciDanisman.cs" />
     <Compile Include="Models\ViewModel\VProje.cs" />
@@ -198,6 +200,9 @@
     <Content Include="Views\Panel\DonemEkleDuzenle.cshtml" />
     <Content Include="Views\Panel\DonemSil.cshtml" />
     <Content Include="Views\Panel\EtkinDonemAtama.cshtml" />
+    <Content Include="Views\Panel\KullaniciSil.cshtml" />
+    <Content Include="Views\Panel\KullaniciEkleDuzenle.cshtml" />
+    <Content Include="Views\Panel\Kullanicilar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

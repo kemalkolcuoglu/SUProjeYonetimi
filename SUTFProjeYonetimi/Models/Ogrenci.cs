@@ -32,6 +32,9 @@ namespace SUTFProjeYonetimi.Models
 		[DisplayName("Öğrenim Tipi (NÖ-İÖ)")]
 		public int OgrenimTipi { get; set; }
 
+		[DisplayName("Şifre")]
+		public string Sifre { get; set; }
+
 		public bool Etkin { get; set; }
 
 		public bool Silindi { get; set; }

@@ -7,11 +7,38 @@ namespace SUTFProjeYonetimi.Models.EkModel
 {
 	public static class SLOlusturma
 	{
+		public static SelectList EklenecekKullaniciListele()
+		{
+			List<SelectListItem> list = new List<SelectListItem>();
+
+			foreach (var item in akademisyenIslemleri.VeriGetir("Silindi = 0 And Etkin = 1"))
+			{
+				SelectListItem sli = new SelectListItem()
+				{
+					Text = item.Ad + " " + item.Soyad,
+					Value = item.ID.ToString()
+				};
+
+				list.Add(sli);
+			}
+			foreach (var item in ogrenciIslemleri.VeriGetir("Silindi = 0 And Etkin = 1"))
+			{
+				SelectListItem sli = new SelectListItem()
+				{
+					Text = item.OgrenciNo + "-" + item.Ad + " " + item.Soyad,
+					Value = item.ID.ToString()
+				};
+
+				list.Add(sli);
+			}
+			return new SelectList(list, "Value", "Text");
+		}
+
 		public static SelectList AkademisyenListele()
 		{
 			List<SelectListItem> list = new List<SelectListItem>();
 
-			foreach (var item in akademisyenIslemleri.VeriGetir("Silindi = 0 And Etkin = 1 And FakulteID = " + AnlikOturum.Kullanici.OFakulteID + " And BolumID = " + AnlikOturum.Kullanici.OBolumID))
+			foreach (var item in akademisyenIslemleri.VeriGetir("Silindi = 0 And Etkin = 1 And FakulteID = " + AnlikOturum.Kullanici.Akademisyen.FakulteID + " And BolumID = " + AnlikOturum.Kullanici.Akademisyen.BolumID))
 			{
 				SelectListItem sli = new SelectListItem()
 				{
@@ -28,7 +55,7 @@ namespace SUTFProjeYonetimi.Models.EkModel
 		{
 			List<SelectListItem> list = new List<SelectListItem>();
 
-			foreach (var item in ogrenciIslemleri.VeriGetir("Silindi = 0 And Etkin = 1 And FakulteID = " + AnlikOturum.Kullanici.OFakulteID + " And BolumID = " + AnlikOturum.Kullanici.OBolumID))
+			foreach (var item in ogrenciIslemleri.VeriGetir("Silindi = 0 And Etkin = 1 And FakulteID = " + AnlikOturum.Kullanici.Akademisyen.FakulteID + " And BolumID = " + AnlikOturum.Kullanici.Akademisyen.BolumID))
 			{
 				SelectListItem sli = new SelectListItem()
 				{
@@ -133,7 +160,7 @@ namespace SUTFProjeYonetimi.Models.EkModel
 		{
 			List<SelectListItem> list = new List<SelectListItem>();
 
-			foreach (var item in projeTipiIslemleri.VeriGetir("Etkin = 1 And Silindi = 0 And FakulteID = " + AnlikOturum.Kullanici.AFakulteID))
+			foreach (var item in projeTipiIslemleri.VeriGetir("Etkin = 1 And Silindi = 0 And FakulteID = " + AnlikOturum.Kullanici.Akademisyen.FakulteID))
 			{
 				SelectListItem sli = new SelectListItem()
 				{
@@ -150,7 +177,7 @@ namespace SUTFProjeYonetimi.Models.EkModel
 		{
 			List<SelectListItem> list = new List<SelectListItem>();
 
-			foreach (var item in vakademisyenIslemleri.VeriGetir("Silindi = 0 And Etkin = 1 And Yetki = " + (int)Yetkilendirme.Dekan))
+			foreach (var item in akademisyenIslemleri.VeriGetir("Silindi = 0 And Etkin = 1 And Yetki = " + (int)Yetkilendirme.Dekan))
 			{
 				SelectListItem sli = new SelectListItem()
 				{
@@ -167,7 +194,7 @@ namespace SUTFProjeYonetimi.Models.EkModel
 		{
 			List<SelectListItem> list = new List<SelectListItem>();
 
-			foreach (var item in vakademisyenIslemleri.VeriGetir("Silindi = 0 And Etkin = 1 And Yetki = " + (int)Yetkilendirme.BolumBaskani))
+			foreach (var item in akademisyenIslemleri.VeriGetir("Silindi = 0 And Etkin = 1 And Yetki = " + (int)Yetkilendirme.BolumBaskani))
 			{
 				SelectListItem sli = new SelectListItem()
 				{
@@ -177,6 +204,40 @@ namespace SUTFProjeYonetimi.Models.EkModel
 
 				list.Add(sli);
 			}
+			return new SelectList(list, "Value", "Text");
+		}
+
+		public static SelectList YetkiListele()
+		{
+			List<SelectListItem> list = new List<SelectListItem>();
+			SelectListItem sli1 = new SelectListItem()
+			{
+				// Yetkilendirme.Dekan
+				Text = "Dekan",
+				Value = "1"
+			};
+			SelectListItem sli2 = new SelectListItem()
+			{
+				// Yetkilendirme.BolumBaskani
+				Text = "Bölüm Başkanı",
+				Value = "2"
+			};
+			SelectListItem sli3 = new SelectListItem()
+			{
+				//Yetkilendirme.Danisman
+				Text = "Danışman",
+				Value = "3"
+			};
+			SelectListItem sli4 = new SelectListItem()
+			{
+				//Yetkilendirme.Ogrenci
+				Text = "Öğrenci",
+				Value = "4"
+			};
+			list.Add(sli1);
+			list.Add(sli2);
+			list.Add(sli3);
+			list.Add(sli4);
 			return new SelectList(list, "Value", "Text");
 		}
 	}

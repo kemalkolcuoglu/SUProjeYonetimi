@@ -8,6 +8,8 @@ namespace SUTFProjeYonetimi.Models
 		[Key]
 		public int ID{ get; set; }
 
+		public int Yetki { get; set; }
+
 		[DisplayName("Fakülte")]
 		public int FakulteID { get; set; }
 
@@ -25,6 +27,9 @@ namespace SUTFProjeYonetimi.Models
 
 		[Required, MaxLength(50)]
 		public string Soyad { get; set; }
+
+		[DisplayName("Şifre")]
+		public string Sifre { get; set; }
 
 		public bool Etkin { get; set; }
 	}

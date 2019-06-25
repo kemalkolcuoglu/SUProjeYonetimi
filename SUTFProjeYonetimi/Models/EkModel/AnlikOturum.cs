@@ -4,9 +4,9 @@ namespace SUTFProjeYonetimi.Models.EkModel
 {
 	public class AnlikOturum
 	{
-		public static VKullanici Kullanici
+		public static Kullanici Kullanici
 		{
-			get { return Get<VKullanici>("Kullanici"); }
+			get { return Get<Kullanici>("Kullanici"); }
 		}
 
 		public static Donem Donem
