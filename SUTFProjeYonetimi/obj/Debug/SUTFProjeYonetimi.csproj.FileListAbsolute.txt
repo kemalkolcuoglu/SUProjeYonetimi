@@ -73,3 +73,10 @@ C:\Users\kemal\source\repos\SUTFProjeYonetimi\SUTFProjeYonetimi\obj\Debug\SUTFPr
 C:\Users\kemal\source\repos\SUTFProjeYonetimi\SUTFProjeYonetimi\bin\FakeData.dll
 C:\Users\kemal\source\repos\SUTFProjeYonetimi\SUTFProjeYonetimi\bin\FakeData.pdb
 C:\Users\kemal\source\repos\SUTFProjeYonetimi\SUTFProjeYonetimi\obj\Debug\SUTFProjeYonetimi.csprojAssemblyReference.cache
+C:\Users\kemal\source\repos\SUTFProjeYonetimi\SUTFProjeYonetimi\bin\Antlr3.Runtime.dll
+C:\Users\kemal\source\repos\SUTFProjeYonetimi\SUTFProjeYonetimi\bin\Newtonsoft.Json.dll
+C:\Users\kemal\source\repos\SUTFProjeYonetimi\SUTFProjeYonetimi\bin\System.Web.Optimization.dll
+C:\Users\kemal\source\repos\SUTFProjeYonetimi\SUTFProjeYonetimi\bin\WebGrease.dll
+C:\Users\kemal\source\repos\SUTFProjeYonetimi\SUTFProjeYonetimi\bin\Antlr3.Runtime.pdb
+C:\Users\kemal\source\repos\SUTFProjeYonetimi\SUTFProjeYonetimi\bin\Newtonsoft.Json.xml
+C:\Users\kemal\source\repos\SUTFProjeYonetimi\SUTFProjeYonetimi\bin\System.Web.Optimization.xml

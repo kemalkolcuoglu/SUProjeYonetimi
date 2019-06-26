@@ -75,39 +75,39 @@
 </div>
 @section scripts
 {
-	<script src="~/Scripts/plugin/datatables/jquery.dataTables.min.js"></script>
-	<script src="~/Scripts/plugin/datatables/dataTables.colVis.min.js"></script>
-	<script src="~/Scripts/plugin/datatables/dataTables.tableTools.min.js"></script>
-	<script src="~/Scripts/plugin/datatables/dataTables.bootstrap.min.js"></script>
-	<script src="~/Scripts/plugin/datatable-responsive/datatables.responsive.min.js"></script>
+	<script src="~/Assets/js/plugin/datatables/jquery.dataTables.min.js"></script>
+	<script src="~/Assets/js/plugin/datatables/dataTables.colVis.min.js"></script>
+	<script src="~/Assets/js/plugin/datatables/dataTables.tableTools.min.js"></script>
+	<script src="~/Assets/js/plugin/datatables/dataTables.bootstrap.min.js"></script>
+	<script src="~/Assets/js/plugin/datatable-responsive/datatables.responsive.min.js"></script>
 	<script>
-        $(document).ready(function () {
-            pageSetUp();
-            var responsiveHelper_dt_basic = undefined;
-            var breakpointDefinition = {
-                tablet: 1024,
-                phone: 480
-            };
-            $('#dt_basic').dataTable({
-                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
-                    "t" +
-                    "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
-                "autoWidth": true,
-                "oLanguage": {
-                    "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
-                },
-                "preDrawCallback": function () {
-                    if (!responsiveHelper_dt_basic) {
-                        responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#dt_basic'), breakpointDefinition);
-                    }
-                },
-                "rowCallback": function (nRow) {
-                    responsiveHelper_dt_basic.createExpandIcon(nRow);
-                },
-                "drawCallback": function (oSettings) {
-                    responsiveHelper_dt_basic.respond();
-                }
-            });
-        })
+		$(document).ready(function () {
+			pageSetUp();
+			var responsiveHelper_dt_basic = undefined;
+			var breakpointDefinition = {
+				tablet: 1024,
+				phone: 480
+			};
+			$('#dt_basic').dataTable({
+				"sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
+					"t" +
+					"<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+				"autoWidth": true,
+				"oLanguage": {
+					"sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+				},
+				"preDrawCallback": function () {
+					if (!responsiveHelper_dt_basic) {
+						responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#dt_basic'), breakpointDefinition);
+					}
+				},
+				"rowCallback": function (nRow) {
+					responsiveHelper_dt_basic.createExpandIcon(nRow);
+				},
+				"drawCallback": function (oSettings) {
+					responsiveHelper_dt_basic.respond();
+				}
+			});
+		})
 	</script>
 }

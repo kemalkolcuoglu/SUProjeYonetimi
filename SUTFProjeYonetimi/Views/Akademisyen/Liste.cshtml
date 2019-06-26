@@ -25,6 +25,7 @@
 								<th> Unvan</th>
 								<th> Ad</th>
 								<th> Soyad</th>
+								<th> Yetki</th>
 								<th> Etkin/Etkin Değil</th>
 								<th> İşlemler</th>
 							</tr>
@@ -38,6 +39,7 @@
 										<td>@items.Unvan</td>
 										<td>@items.Ad</td>
 										<td>@items.Soyad</td>
+										<td>@((SUTFProjeYonetimi.Models.Enum.Yetkilendirme)items.Yetki)</td>
 										<td>Etkin</td>
 										<td>
 											<a href="~/Akademisyen/Duzenle/@items.ID" class="btn btn-warning hidden-sm hidden-xs"><i class="fa fa-pencil"></i></a>
@@ -72,11 +74,11 @@
 </div>
 @section scripts
 {
-	<script src="~/Scripts/plugin/datatables/jquery.dataTables.min.js"></script>
-	<script src="~/Scripts/plugin/datatables/dataTables.colVis.min.js"></script>
-	<script src="~/Scripts/plugin/datatables/dataTables.tableTools.min.js"></script>
-	<script src="~/Scripts/plugin/datatables/dataTables.bootstrap.min.js"></script>
-	<script src="~/Scripts/plugin/datatable-responsive/datatables.responsive.min.js"></script>
+	<script src="~/Assets/js/plugin/datatables/jquery.dataTables.min.js"></script>
+	<script src="~/Assets/js/plugin/datatables/dataTables.colVis.min.js"></script>
+	<script src="~/Assets/js/plugin/datatables/dataTables.tableTools.min.js"></script>
+	<script src="~/Assets/js/plugin/datatables/dataTables.bootstrap.min.js"></script>
+	<script src="~/Assets/js/plugin/datatable-responsive/datatables.responsive.min.js"></script>
 	<script>
         $(document).ready(function () {
             pageSetUp();

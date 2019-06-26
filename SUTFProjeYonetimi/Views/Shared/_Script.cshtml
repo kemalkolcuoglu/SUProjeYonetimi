@@ -1,18 +1,5 @@
 ﻿<script data-pace-options='{ "restartOnRequestAfter": true }' src="~/Assets/js/plugin/pace/pace.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script>
-	if (!window.jQuery) {
-		document.write('<script src="~/Assets/js/libs/jquery-3.2.1.min.js"><\/script>');
-	}
-</script>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-<script>
-	if (!window.jQuery.ui) {
-		document.write('<script src="~/Assets/js/libs/jquery-ui.min.js"><\/script>');
-	}
-</script>
-
+<script src="~/Assets/js/libs/jquery-3.2.1.min.js"></script>
 <script src="~/Assets/js/app.config.js"></script>
 <script src="~/Assets/js/plugin/jquery-touch/jquery.ui.touch-punch.min.js"></script>
 <script src="~/Assets/js/bootstrap/bootstrap.min.js"></script>
@@ -25,47 +12,5 @@
 <script src="~/Assets/js/plugin/msie-fix/jquery.mb.browser.min.js"></script>
 <script src="~/Assets/js/plugin/fastclick/fastclick.min.js"></script>
 <script src="~/Assets/js/app.min.js"></script>
-<script src="~/Assets/js/smart-chat-ui/smart.chat.ui.min.js"></script>
-<script src="~/Assets/js/smart-chat-ui/smart.chat.manager.min.js"></script>
-
-<script>
-	$(document).ready(function () {
-		pageSetUp();
-		$(".js-status-update a").click(function () {
-			var selText = $(this).text();
-			var $this = $(this);
-			$this.parents('.btn-group').find('.dropdown-toggle').html(selText + ' <span class="caret"></span>');
-			$this.parents('.dropdown-menu').find('li').removeClass('active');
-			$this.parent().addClass('active');
-		});
-		$.filter_input = $('#filter-chat-list');
-		$.chat_users_container = $('#chat-container > .chat-list-body')
-		$.chat_users = $('#chat-users')
-		$.chat_list_btn = $('#chat-container > .chat-list-open-close');
-		$.chat_body = $('#chat-body');
-		jQuery.expr[':'].Contains = function (a, i, m) {
-			return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
-		};
-		function listFilter(list) {
-			$.filter_input.change(function () {
-				var filter = $(this).val();
-				if (filter) {
-					$.chat_users.find("a:not(:Contains(" + filter + "))").parent().slideUp();
-					$.chat_users.find("a:Contains(" + filter + ")").parent().slideDown();
-				} else {
-					$.chat_users.find("li").slideDown();
-				}
-				return false;
-			}).keyup(function () {
-				$(this).change();
-			});
-		}
-		listFilter($.chat_users);
-		$.chat_list_btn.click(function () {
-			$(this).parent('#chat-container').toggleClass('open');
-		})
-		$.chat_body.animate({
-			scrollTop: $.chat_body[0].scrollHeight
-		}, 500);
-	});
-</script>
+@*<script src="~/Assets/js/smart-chat-ui/smart.chat.ui.min.js"></script>
+<script src="~/Assets/js/smart-chat-ui/smart.chat.manager.min.js"></script>*@

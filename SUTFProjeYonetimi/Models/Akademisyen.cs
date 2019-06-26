@@ -6,7 +6,7 @@ namespace SUTFProjeYonetimi.Models
 	public class Akademisyen
 	{
 		[Key]
-		public int ID{ get; set; }
+		public int ID { get; set; }
 
 		public int Yetki { get; set; }
 
@@ -32,5 +32,7 @@ namespace SUTFProjeYonetimi.Models
 		public string Sifre { get; set; }
 
 		public bool Etkin { get; set; }
+
+		public bool Silindi { get; set; }
 	}
 }

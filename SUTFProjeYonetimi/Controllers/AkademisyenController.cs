@@ -20,11 +20,10 @@ namespace SUTFProjeYonetimi.Controllers
 			switch (AnlikOturum.Kullanici.Yetki)
 			{
 				case (int)Yetkilendirme.SystemAdmin:
-					akademisyen = akademisyenIslemleri.VeriGetir(); break;
 				case (int)Yetkilendirme.Dekan:
-					akademisyen = akademisyenIslemleri.VeriGetir("Silindi = 0"); break;
+					akademisyen = akademisyenIslemleri.VeriGetir("Silindi = 0 And Yetki != 0"); break;
 				case (int)Yetkilendirme.BolumBaskani:
-					akademisyen = akademisyenIslemleri.VeriGetir("Silindi = 0 AND FakulteID = " + AnlikOturum.Kullanici.Akademisyen.FakulteID + " AND BolumID = " + AnlikOturum.Kullanici.Akademisyen.BolumID); break;
+					akademisyen = akademisyenIslemleri.VeriGetir("Silindi = 0 And Etkin = 1 And Yetki != 0 And FakulteID = " + AnlikOturum.Kullanici.Akademisyen.FakulteID + " AND BolumID = " + AnlikOturum.Kullanici.Akademisyen.BolumID); break;
 				case (int)Yetkilendirme.Danisman:
 				case (int)Yetkilendirme.Ogrenci:
 					return RedirectToAction("Anasayfa", "Panel");
@@ -65,6 +64,7 @@ namespace SUTFProjeYonetimi.Controllers
 		{
 			ViewData["Fakulte"] = SLOlusturma.FakulteListele();
 			ViewData["Bolum"] = SLOlusturma.BolumListele();
+			ViewData["Yetki"] = SLOlusturma.YetkiListele();
 			return View("EkleDuzenle");
 		}
 
@@ -74,6 +74,7 @@ namespace SUTFProjeYonetimi.Controllers
 		{
 			if (ModelState.IsValid)
 			{
+				akademisyen.Silindi = false;
 				int durum = akademisyenIslemleri.Ekle(akademisyen);
 
 				if (durum > 0)
@@ -83,6 +84,7 @@ namespace SUTFProjeYonetimi.Controllers
 			}
 			ViewData["Fakulte"] = SLOlusturma.FakulteListele();
 			ViewData["Bolum"] = SLOlusturma.BolumListele();
+			ViewData["Yetki"] = SLOlusturma.YetkiListele();
 			return View("EkleDuzenle", akademisyen);
 		}
 
@@ -98,7 +100,7 @@ namespace SUTFProjeYonetimi.Controllers
 
 			ViewData["Fakulte"] = SLOlusturma.FakulteListele();
 			ViewData["Bolum"] = SLOlusturma.BolumListele();
-
+			ViewData["Yetki"] = SLOlusturma.YetkiListele();
 			return View("EkleDuzenle", akademisyen);
 		}
 
@@ -116,11 +118,14 @@ namespace SUTFProjeYonetimi.Controllers
 				akademisyen.Soyad = gelenAkademisyen.Soyad;
 				akademisyen.TCKNO = gelenAkademisyen.TCKNO;
 				akademisyen.Unvan = gelenAkademisyen.Unvan;
+				akademisyen.Sifre = gelenAkademisyen.Sifre;
+				akademisyen.Yetki = gelenAkademisyen.Yetki;
 
 				int durum = akademisyenIslemleri.Guncelle("ID = " + id, akademisyen);
 			}
 			ViewData["Fakulte"] = SLOlusturma.FakulteListele();
 			ViewData["Bolum"] = SLOlusturma.BolumListele();
+			ViewData["Yetki"] = SLOlusturma.YetkiListele();
 			return View("EkleDuzenle", gelenAkademisyen);
 		}
 
@@ -152,7 +157,18 @@ namespace SUTFProjeYonetimi.Controllers
 
 		public ActionResult OgrenciDanismanListesi()
 		{
-			List<VOgrenciDanisman> ogrenciDanisman = vogrenciDanismanIslemleri.VeriGetir("FakulteID = " + AnlikOturum.Kullanici.Akademisyen.FakulteID + " And BolumID = " + AnlikOturum.Kullanici.Akademisyen.BolumID);
+			List<VOgrenciDanisman> ogrenciDanisman;
+			switch (AnlikOturum.Kullanici.Yetki)
+			{
+				case (int)Yetkilendirme.SystemAdmin:
+					ogrenciDanisman = vogrenciDanismanIslemleri.VeriGetir(); break;
+				case (int)Yetkilendirme.Dekan:
+					ogrenciDanisman = vogrenciDanismanIslemleri.VeriGetir("FakulteID = " + AnlikOturum.Kullanici.Akademisyen.FakulteID); break;
+				case (int)Yetkilendirme.BolumBaskani:
+					ogrenciDanisman = vogrenciDanismanIslemleri.VeriGetir("FakulteID = " + AnlikOturum.Kullanici.Akademisyen.FakulteID + " And BolumID = " + AnlikOturum.Kullanici.Akademisyen.BolumID); break;
+				default:
+					return RedirectToAction("Anasayfa", "Panel");
+			}			
 
 			return View(ogrenciDanisman);
 		}
@@ -191,6 +207,9 @@ namespace SUTFProjeYonetimi.Controllers
 
 			if (ogrenciDanisman == null)
 				return HttpNotFound();
+
+			ViewData["Akademisyenler"] = SLOlusturma.AkademisyenListele(AnlikOturum.Kullanici.Akademisyen.FakulteID, AnlikOturum.Kullanici.Akademisyen.BolumID);
+			ViewData["Ogrenciler"] = SLOlusturma.OgrenciListele(AnlikOturum.Kullanici.Akademisyen.FakulteID, AnlikOturum.Kullanici.Akademisyen.BolumID);
 
 			return View("DanismanAtama", ogrenciDanisman);
 		}

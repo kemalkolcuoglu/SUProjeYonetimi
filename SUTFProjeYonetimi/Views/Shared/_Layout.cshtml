@@ -1,7 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using System.Web.Optimization;
+<!DOCTYPE html>
 <html lang="tr">
 <head>
 	@Html.Partial("_Head")
+	@*@Styles.Render("~/Content/css")*@
 	@RenderSection("Contents", false)
 </head>
 <body class="">
@@ -52,10 +54,11 @@
 					<li><a href="~/Panel/FakulteListesi" title="Fakülteler"><i class="fa fa-lg fa-fw fa-building"></i>Fakülteler</a></li>
 					<li><a href="~/Panel/BolumListesi" title="Bölümler"><i class="fa fa-lg fa-fw fa-code-fork"></i>Bölümler</a></li>
 					<li><a href="~/Proje/Liste" title="Projeler"><i class="fa fa-lg fa-fw fa-cubes"></i>Projeler</a></li>
-					<li><a href="~/Proje/OneriListesi" title="Proje Önerileri"><i class="fa fa-lg fa-fw fa-comment"></i>Proje Önerileri</a></li>
 					<li><a href="~/Ogrenci/Liste" title="Öğrenciler"><i class="fa fa-lg fa-fw fa-users"></i>Öğrenciler</a></li>
 					<li><a href="~/Akademisyen/Liste" title="Akademisyenler"><i class="fa fa-lg fa-fw fa-graduation-cap"></i>Akademisyenler</a></li>
 					<li><a href="~/Panel/Duyuru" title="Duyurular"><i class="fa fa-lg fa-fw fa-bell"></i>Duyurular</a></li>
+					<li><a href="~/Proje/ProjeTipleri" title="Proje Tipleri"><i class="fa fa-lg fa-fw fa-object-ungroup"></i>Proje Tipleri</a></li>
+					<li><a href="~/Akademisyen/OgrenciDanismanListesi" title="Öğrenci Danışman Listesi"><i class="fa fa-lg fa-fw fa-graduation-cap"></i>Öğrenci Danışman Listesi</a></li>
 				}
 				else if (SUTFProjeYonetimi.Models.EkModel.AnlikOturum.Kullanici.Yetki == (int)SUTFProjeYonetimi.Models.Enum.Yetkilendirme.Dekan)
 				{
@@ -64,21 +67,23 @@
 					<li><a href="~/Ogrenci/Liste" title="Öğrenciler"><i class="fa fa-lg fa-fw fa-users"></i>Öğrenciler</a></li>
 					<li><a href="~/Akademisyen/Liste" title="Akademisyenler"><i class="fa fa-lg fa-fw fa-graduation-cap"></i>Akademisyenler</a></li>
 					<li><a href="~/Panel/Duyuru" title="Duyurular"><i class="fa fa-lg fa-fw fa-bell"></i>Duyurular</a></li>
+					<li><a href="~/Proje/ProjeTipleri" title="Proje Tipleri"><i class="fa fa-lg fa-fw fa-object-ungroup"></i>Proje Tipleri</a></li>
+					<li><a href="~/Akademisyen/OgrenciDanismanListesi" title="Öğrenci Danışman Listesi"><i class="fa fa-lg fa-fw fa-graduation-cap"></i>Öğrenci Danışman Listesi</a></li>
 				}
 				else if (SUTFProjeYonetimi.Models.EkModel.AnlikOturum.Kullanici.Yetki == (int)SUTFProjeYonetimi.Models.Enum.Yetkilendirme.BolumBaskani)
 				{
 					<li><a href="~/Panel/Anasayfa" title="Anasayfa"><i class="fa fa-lg fa-fw fa-home"></i>Anasayfa</a></li>
 					<li><a href="~/Proje/Liste" title="Projeler"><i class="fa fa-lg fa-fw fa-cubes"></i>Projeler</a></li>
-					<li><a href="~/Proje/OneriListesi" title="Proje Önerileri"><i class="fa fa-lg fa-fw fa-comment"></i>Proje Önerileri</a></li>
 					<li><a href="~/Ogrenci/Liste" title="Öğrenciler"><i class="fa fa-lg fa-fw fa-users"></i>Öğrenciler</a></li>
 					<li><a href="~/Akademisyen/DanismanAtama" title="Danışman Atama"><i class="fa fa-lg fa-fw fa-gavel"></i>Danışman Atama</a></li>
 					<li><a href="~/Panel/Duyuru" title="Duyurular"><i class="fa fa-lg fa-fw fa-bell"></i>Duyurular</a></li>
+					<li><a href="~/Proje/ProjeTipleri" title="Proje Tipleri"><i class="fa fa-lg fa-fw fa-object-ungroup"></i>Proje Tipleri</a></li>
+					<li><a href="~/Akademisyen/OgrenciDanismanListesi" title="Öğrenci Danışman Listesi"><i class="fa fa-lg fa-fw fa-graduation-cap"></i>Öğrenci Danışman Listesi</a></li>
 				}
 				else if (SUTFProjeYonetimi.Models.EkModel.AnlikOturum.Kullanici.Yetki == (int)SUTFProjeYonetimi.Models.Enum.Yetkilendirme.Danisman)
 				{
 					<li><a href="~/Panel/Anasayfa" title="Anasayfa"><i class="fa fa-lg fa-fw fa-home"></i>Anasayfa</a></li>
 					<li><a href="~/Proje/Liste" title="Projeler"><i class="fa fa-lg fa-fw fa-cubes"></i>Projeler</a></li>
-					<li><a href="~/Proje/OneriListesi" title="Proje Önerileri"><i class="fa fa-lg fa-fw fa-comment"></i>Proje Önerileri</a></li>
 					<li><a href="~/Ogrenci/Liste" title="Öğrenciler"><i class="fa fa-lg fa-fw fa-users"></i>Öğrenciler</a></li>
 					<li><a href="~/Akademisyen/DanismanAtama" title="Danışman Atama"><i class="fa fa-lg fa-fw fa-gavel"></i>Danışman Atama</a></li>
 					<li><a href="~/Panel/Duyuru" title="Duyurular"><i class="fa fa-lg fa-fw fa-bell"></i>Duyurular</a></li>
@@ -87,7 +92,6 @@
 				{
 					<li><a href="~/Panel/Anasayfa" title="Anasayfa"><i class="fa fa-lg fa-fw fa-home"></i>Anasayfa</a></li>
 					<li><a href="~/Ogrenci/Proje" title="Proje"><i class="fa fa-lg fa-fw fa-cubes"></i>Proje</a></li>
-					<li><a href="~/Ogrenci/ProjeOnerisiOlustur" title="Proje Önerisi Oluştur"><i class="fa fa-lg fa-fw fa-comment"></i>Proje Önerisi Oluştur</a></li>
 					@*<li><a href="~/Ogrenci/DanismanlikDegisiklikTalebi" title="Danışmanlık Değişiklik Talebi"><i class="fa fa-lg fa-fw fa-user"></i>Danışmanlık Değişiklik Talebi</a></li>*@
 				}
 			</ul>
@@ -106,7 +110,13 @@
 			</div>
 		</div>
 	</div>
-	@Html.Partial("_Script")
+	@*@Html.Partial("_Script")*@
+	@Scripts.Render("~/Scripts/js")
+	<script>
+        $(document).ready(function () {
+            pageSetUp();
+        });
+	</script>
 	@RenderSection("Scripts", false)
 </body>
 </html>

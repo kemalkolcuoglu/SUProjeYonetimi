@@ -303,6 +303,109 @@ namespace SUTFProjeYonetimi.Controllers
 
 		#endregion
 
+		#region ProjeTipiIslemleri
+
+		public ActionResult ProjeTipleri()
+		{
+			List<ProjeTipi> projeTipleri;
+			switch (AnlikOturum.Kullanici.Yetki)
+			{
+				case (int)Yetkilendirme.SystemAdmin:
+					projeTipleri = projeTipiIslemleri.VeriGetir("Silindi = 0"); break;
+				case (int)Yetkilendirme.Dekan:
+				case (int)Yetkilendirme.BolumBaskani:
+					projeTipleri = projeTipiIslemleri.VeriGetir("Silindi = 0 And Etkin = 1 And FakulteID = " + AnlikOturum.Kullanici.Akademisyen.FakulteID); break;
+				default:
+					return RedirectToAction("Anasayfa", "Panel");
+			}
+			return View(projeTipleri);
+		}
+
+		public ActionResult ProjeTipiEkle()
+		{
+			ViewData["Fakulte"] = SLOlusturma.FakulteListele();
+			return View("ProjeTipiEkleDuzenle");
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult ProjeTipiEkle(ProjeTipi projeTipi)
+		{
+			if (ModelState.IsValid)
+			{
+				projeTipi.Silindi = false;
+
+				int durum = projeTipiIslemleri.Ekle(projeTipi);
+
+				if (durum > 0)
+					return RedirectToAction(nameof(ProjeTipleri));
+			}
+			ViewData["Fakulte"] = SLOlusturma.FakulteListele();
+			return View("ProjeTipiEkleDuzenle");
+		}
+
+		public ActionResult ProjeTipiDuzenle(int? id)
+		{
+			if (id == null)
+				return RedirectToAction(nameof(ProjeTipleri));
+
+			ProjeTipi projeTipi = projeTipiIslemleri.Bul("ID = " + id);
+
+			if (projeTipi == null)
+				return HttpNotFound();
+
+			ViewData["Fakulte"] = SLOlusturma.FakulteListele();
+
+			return View("ProjeTipiEkleDuzenle", projeTipi);
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult ProjeTipiDuzenle(int id, ProjeTipi gelenProjeTipi)
+		{
+			if (ModelState.IsValid)
+			{
+				ProjeTipi projeTipi = projeTipiIslemleri.Bul("ID = " + id);
+				projeTipi.Ad = gelenProjeTipi.Ad;
+				projeTipi.Etkin = gelenProjeTipi.Etkin;
+				projeTipi.FakulteID = gelenProjeTipi.FakulteID;
+
+				int durum = projeTipiIslemleri.Guncelle("ID = " + id, projeTipi);
+
+				if (durum > 0)
+					return RedirectToAction(nameof(ProjeTipleri));
+
+				ViewBag.Hata = "İşlem gerçekleştirilemedi. Lütfen tekrar deneyiniz.";
+			}
+			return View("ProjeTipiEkleDuzenle", gelenProjeTipi);
+		}
+
+		public ActionResult ProjeTipiSil(int? id)
+		{
+			if (id == null)
+				return RedirectToAction(nameof(ProjeTipleri));
+
+			ProjeTipi projeTipi = projeTipiIslemleri.Bul("ID = " + id);
+
+			if (projeTipi == null)
+				return HttpNotFound();
+
+			return View(projeTipi);
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult ProjeTipiSil(int id, ProjeTipi projeTipi)
+		{
+			int durum = projeTipiIslemleri.Guncelle("ID = " + id, "Silindi", true, typeof(bool));
+
+			if (durum > 0)
+				return RedirectToAction(nameof(ProjeTipleri));
+			return View(projeTipi);
+		}
+
+		#endregion
+
 		#region ProjeIlerlemeTakipIslemleri
 
 		public ActionResult IlerlemeListe()

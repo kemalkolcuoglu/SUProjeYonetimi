@@ -13,7 +13,7 @@ namespace SUTFProjeYonetimi.App_Start
 		public static TemelIslemler<Fakulte> fakulteIslemleri = new TemelIslemler<Fakulte>("fakulte");
 		public static TemelIslemler<Mesaj> mesajIslemleri = new TemelIslemler<Mesaj>("mesaj");
 		public static TemelIslemler<Ogrenci> ogrenciIslemleri = new TemelIslemler<Ogrenci>("ogrenci");
-		public static TemelIslemler<OgrenciDanisman> ogrenciDanismanIslemleri = new TemelIslemler<OgrenciDanisman>("ogrencidanisman");
+		public static TemelIslemler<OgrenciDanisman> ogrenciDanismanIslemleri = new TemelIslemler<OgrenciDanisman>("ogrdan");
 		public static TemelIslemler<Proje> projeIslemleri = new TemelIslemler<Proje>("proje");
 		public static TemelIslemler<ProjeNot> projeNotIslemleri = new TemelIslemler<ProjeNot>("projenot");
 		public static TemelIslemler<ProjeOgrenciDanisman> projeOgrDanIslemleri = new TemelIslemler<ProjeOgrenciDanisman>("projeogrdan");
@@ -25,7 +25,7 @@ namespace SUTFProjeYonetimi.App_Start
 		public static TemelIslemler<VBolum> vbolumIslemleri = new TemelIslemler<VBolum>("vbolum");
 		public static TemelIslemler<VFakulte> vfakulteIslemleri = new TemelIslemler<VFakulte>("vfakulte");
 		public static TemelIslemler<VOgrenci> vogrenciIslemleri = new TemelIslemler<VOgrenci>("vogrenci");
-		public static TemelIslemler<VOgrenciDanisman> vogrenciDanismanIslemleri = new TemelIslemler<VOgrenciDanisman>("vogrencidanisman");
+		public static TemelIslemler<VOgrenciDanisman> vogrenciDanismanIslemleri = new TemelIslemler<VOgrenciDanisman>("vogrdan");
 		public static TemelIslemler<VProje> vprojeIslemleri = new TemelIslemler<VProje>("vproje");
 		public static TemelIslemler<VProjeOneri> vprojeOneriIslemleri = new TemelIslemler<VProjeOneri>("vprojeoneri");
 	}

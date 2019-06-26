@@ -6,7 +6,6 @@ using SUTFProjeYonetimi.Models.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using static SUTFProjeYonetimi.App_Start.Tanimlamalar;
@@ -99,6 +98,7 @@ namespace SUTFProjeYonetimi.Controllers
 		{
 			if (ModelState.IsValid)
 			{
+				ogrenci.Silindi = false;
 				int durum = ogrenciIslemleri.Ekle(ogrenci);
 
 				if (durum > 0)
@@ -161,6 +161,7 @@ namespace SUTFProjeYonetimi.Controllers
 				ogrenci.Soyad = gelenOgrenci.Soyad;
 				ogrenci.TCKNO = gelenOgrenci.TCKNO;
 				ogrenci.Sifre = gelenOgrenci.Sifre;
+				ogrenci.Etkin = gelenOgrenci.Etkin;
 
 				int durum = ogrenciIslemleri.Guncelle("ID = " + id, ogrenci);
 				if (durum > 0)
