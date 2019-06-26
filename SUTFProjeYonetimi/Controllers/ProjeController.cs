@@ -64,7 +64,12 @@ namespace SUTFProjeYonetimi.Controllers
 
 		public ActionResult Ekle()
 		{
-			ViewData["ProjeTipi"] = SLOlusturma.ProjeTipiListele();
+			ViewData["ProjeTipi"] = SLOlusturma.ProjeTipiListele(AnlikOturum.Kullanici.Akademisyen.FakulteID);
+			ViewData["ProjeDurumu"] = SLOlusturma.ProjeDurumuListele();
+			ViewData["Fakulte"] = SLOlusturma.FakulteListele();
+			ViewData["Bolum"] = SLOlusturma.BolumListele();
+			ViewData["Danisman"] = SLOlusturma.AkademisyenListele(AnlikOturum.Kullanici.Akademisyen.FakulteID, AnlikOturum.Kullanici.Akademisyen.BolumID);
+			ViewData["Ogrenci"] = SLOlusturma.OgrenciListele(AnlikOturum.Kullanici.Akademisyen.FakulteID, AnlikOturum.Kullanici.Akademisyen.BolumID);
 
 			return View("EkleDuzenle");
 		}
@@ -75,12 +80,22 @@ namespace SUTFProjeYonetimi.Controllers
 		{
 			if (ModelState.IsValid)
 			{
+				VBolum vBolum = vbolumIslemleri.Bul("FakulteID = " + proje.FakulteID + " And BolumID = " + proje.BolumID);
+				int oncekiProjeID = projeIslemleri.MaxDeger("ID");
+				oncekiProjeID++;
+
+				proje.ProjeNo = vBolum.FakulteKisaKodu + "-" + vBolum.KisaKod + "-" + oncekiProjeID;
 				int durum = projeIslemleri.Ekle(proje);
 
 				if (durum > 0)
 					return RedirectToAction(nameof(Liste));
 			}
-			ViewData["ProjeTipi"] = SLOlusturma.ProjeTipiListele();
+			ViewData["ProjeTipi"] = SLOlusturma.ProjeTipiListele(AnlikOturum.Kullanici.Akademisyen.FakulteID);
+			ViewData["ProjeDurumu"] = SLOlusturma.ProjeDurumuListele();
+			ViewData["Fakulte"] = SLOlusturma.FakulteListele();
+			ViewData["Bolum"] = SLOlusturma.BolumListele();
+			ViewData["Danisman"] = SLOlusturma.AkademisyenListele(AnlikOturum.Kullanici.Akademisyen.FakulteID, AnlikOturum.Kullanici.Akademisyen.BolumID);
+			ViewData["Ogrenci"] = SLOlusturma.OgrenciListele(AnlikOturum.Kullanici.Akademisyen.FakulteID, AnlikOturum.Kullanici.Akademisyen.BolumID);
 			return View("EkleDuzenle", proje);
 		}
 
@@ -94,8 +109,12 @@ namespace SUTFProjeYonetimi.Controllers
 			if (proje == null)
 				return HttpNotFound();
 
-			ViewData["ProjeTipi"] = SLOlusturma.ProjeTipiListele();
-
+			ViewData["ProjeTipi"] = SLOlusturma.ProjeTipiListele(AnlikOturum.Kullanici.Akademisyen.FakulteID);
+			ViewData["ProjeDurumu"] = SLOlusturma.ProjeDurumuListele();
+			ViewData["Fakulte"] = SLOlusturma.FakulteListele();
+			ViewData["Bolum"] = SLOlusturma.BolumListele();
+			ViewData["Danisman"] = SLOlusturma.AkademisyenListele(AnlikOturum.Kullanici.Akademisyen.FakulteID,AnlikOturum.Kullanici.Akademisyen.BolumID);
+			ViewData["Ogrenci"] = SLOlusturma.OgrenciListele(AnlikOturum.Kullanici.Akademisyen.FakulteID, AnlikOturum.Kullanici.Akademisyen.BolumID);
 			return View("EkleDuzenle", proje);
 		}
 
@@ -105,23 +124,48 @@ namespace SUTFProjeYonetimi.Controllers
 		{
 			if (ModelState.IsValid)
 			{
+				VBolum vBolum;
 				Proje proje = projeIslemleri.Bul("ID = " + id);
+
+				if (gelenProje.FakulteID != proje.FakulteID || gelenProje.BolumID != proje.BolumID)
+				{
+					vBolum = vbolumIslemleri.Bul("FakulteID = " + gelenProje.FakulteID + " And BolumID = " + gelenProje.BolumID);
+					proje.ProjeNo = vBolum.FakulteKisaKodu + "-" + vBolum.KisaKod + "-" + proje.ID;
+				}
+
 				proje.BaslangicTarihi = gelenProje.BaslangicTarihi;
 				proje.BitisTarihi = gelenProje.BitisTarihi;
+				proje.BolumID = gelenProje.BolumID;
+				proje.CevreselEtkileri = gelenProje.CevreselEtkileri;
+				proje.DanismanID = gelenProje.DanismanID;
+				proje.Durum = gelenProje.Durum;
 				proje.EkAlan1 = gelenProje.EkAlan1;
 				proje.EkAlan2 = gelenProje.EkAlan2;
 				proje.EkDosya = gelenProje.EkDosya;
+				proje.EtikSakincalari = gelenProje.EtikSakincalari;
+				proje.Etkin = gelenProje.Etkin;
+				proje.FakulteID = gelenProje.FakulteID;
+				proje.MaliyetArastirmasi = gelenProje.MaliyetArastirmasi;
+				proje.OgrenciID = gelenProje.OgrenciID;
 				proje.ProjeAciklamasi = gelenProje.ProjeAciklamasi;
 				proje.ProjeAdi = gelenProje.ProjeAdi;
+				proje.ProjeKonusuAmaci = gelenProje.ProjeKonusuAmaci;
 				proje.ProjeTipi = gelenProje.ProjeTipi;
 				proje.Rapor = gelenProje.Rapor;
+				proje.Tarih = DateTime.Now;
+				proje.YararlanilanKaynaklar = gelenProje.YararlanilanKaynaklar;
 
 				int durum = projeIslemleri.Guncelle("ID = " + id, proje);
 
 				if (durum > 0)
 					return RedirectToAction(nameof(Liste));
 			}
-			ViewData["ProjeTipi"] = SLOlusturma.ProjeTipiListele();
+			ViewData["ProjeTipi"] = SLOlusturma.ProjeTipiListele(AnlikOturum.Kullanici.Akademisyen.FakulteID);
+			ViewData["ProjeDurumu"] = SLOlusturma.ProjeDurumuListele();
+			ViewData["Fakulte"] = SLOlusturma.FakulteListele();
+			ViewData["Bolum"] = SLOlusturma.BolumListele();
+			ViewData["Danisman"] = SLOlusturma.AkademisyenListele(AnlikOturum.Kullanici.Akademisyen.FakulteID, AnlikOturum.Kullanici.Akademisyen.BolumID);
+			ViewData["Ogrenci"] = SLOlusturma.OgrenciListele(AnlikOturum.Kullanici.Akademisyen.FakulteID, AnlikOturum.Kullanici.Akademisyen.BolumID);
 			return View("EkleDuzenle", gelenProje);
 		}
 

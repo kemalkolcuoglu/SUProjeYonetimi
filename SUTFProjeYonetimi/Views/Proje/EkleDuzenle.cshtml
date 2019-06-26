@@ -3,6 +3,11 @@
 	ViewBag.Title = "Proje İşlemleri";
 
 	var projeTipi = ViewData["ProjeTipi"] as SelectList;
+	var projeDurumu = ViewData["ProjeDurumu"] as SelectList;
+	var fakulte = ViewData["Fakulte"] as SelectList;
+	var bolum = ViewData["Bolum"] as SelectList;
+	var danisman = ViewData["Danisman"] as SelectList;
+	var ogrenci = ViewData["Ogrenci"] as SelectList;
 }
 
 <div id="ribbon">
@@ -28,16 +33,33 @@
 						<div class="form-horizontal col-lg-12 col-md-12 col-sm-12 col-xs-12">
 							@Html.ValidationSummary(true, "", new { @class = "text-danger" })
 							<div class="form-group">
-								@Html.LabelFor(model => model.ProjeNo, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-2 col-xs-2" })
+								@Html.LabelFor(model => model.FakulteID, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-2 col-xs-2" })
 								<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-									@Html.EditorFor(model => model.ProjeNo, new { htmlAttributes = new { @class = "form-control", placeholder = "Proje No." } })
-									@Html.ValidationMessageFor(model => model.ProjeNo, "", new { @class = "text-danger" })
+									@Html.DropDownListFor(model => model.FakulteID, fakulte, new { @class = "form-control", placeholder = "Fakülte" })
+								</div>
+							</div>
+							<div class="form-group">
+								@Html.LabelFor(model => model.BolumID, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-2 col-xs-2" })
+								<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+									@Html.DropDownListFor(model => model.BolumID, bolum, new { @class = "form-control", placeholder = "Bölüm" })
 								</div>
 							</div>
 							<div class="form-group">
 								@Html.LabelFor(model => model.ProjeTipi, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-2 col-xs-2" })
 								<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-									@Html.DropDownListFor(model => model.ProjeTipi, projeTipi, new { @class = "form-control", placeholder = "Fakülte" })
+									@Html.DropDownListFor(model => model.ProjeTipi, projeTipi, new { @class = "form-control", placeholder = "Proje Tipi" })
+								</div>
+							</div>
+							<div class="form-group">
+								@Html.LabelFor(model => model.DanismanID, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-2 col-xs-2" })
+								<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+									@Html.DropDownListFor(model => model.DanismanID, danisman, new { @class = "form-control", placeholder = "Danışman" })
+								</div>
+							</div>
+							<div class="form-group">
+								@Html.LabelFor(model => model.OgrenciID, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-2 col-xs-2" })
+								<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+									@Html.DropDownListFor(model => model.OgrenciID, ogrenci, new { @class = "form-control", placeholder = "Öğrenci" })
 								</div>
 							</div>
 							<div class="form-group">
@@ -52,6 +74,41 @@
 								<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
 									@Html.TextAreaFor(model => model.ProjeAciklamasi, new { @class = "form-control", placeholder = "Proje Açıklaması" })
 									@Html.ValidationMessageFor(model => model.ProjeAciklamasi, "", new { @class = "text-danger" })
+								</div>
+							</div>
+							<div class="form-group">
+								@Html.LabelFor(model => model.ProjeKonusuAmaci, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-2 col-xs-2" })
+								<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+									@Html.TextAreaFor(model => model.ProjeKonusuAmaci, new { @class = "form-control", placeholder = "Proje Konusu Amacı" })
+									@Html.ValidationMessageFor(model => model.ProjeKonusuAmaci, "", new { @class = "text-danger" })
+								</div>
+							</div>
+							<div class="form-group">
+								@Html.LabelFor(model => model.MaliyetArastirmasi, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-2 col-xs-2" })
+								<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+									@Html.TextAreaFor(model => model.MaliyetArastirmasi, new { @class = "form-control", placeholder = "Maliyet Araştırması" })
+									@Html.ValidationMessageFor(model => model.MaliyetArastirmasi, "", new { @class = "text-danger" })
+								</div>
+							</div>
+							<div class="form-group">
+								@Html.LabelFor(model => model.CevreselEtkileri, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-2 col-xs-2" })
+								<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+									@Html.TextAreaFor(model => model.CevreselEtkileri, new { @class = "form-control", placeholder = "Çevresel Etkileri" })
+									@Html.ValidationMessageFor(model => model.CevreselEtkileri, "", new { @class = "text-danger" })
+								</div>
+							</div>
+							<div class="form-group">
+								@Html.LabelFor(model => model.EtikSakincalari, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-2 col-xs-2" })
+								<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+									@Html.TextAreaFor(model => model.EtikSakincalari, new { @class = "form-control", placeholder = "Etik Sakıncaları" })
+									@Html.ValidationMessageFor(model => model.EtikSakincalari, "", new { @class = "text-danger" })
+								</div>
+							</div>
+							<div class="form-group">
+								@Html.LabelFor(model => model.YararlanilanKaynaklar, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-2 col-xs-2" })
+								<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+									@Html.TextAreaFor(model => model.YararlanilanKaynaklar, new { @class = "form-control", placeholder = "Yararlanılan Kaynaklar" })
+									@Html.ValidationMessageFor(model => model.YararlanilanKaynaklar, "", new { @class = "text-danger" })
 								</div>
 							</div>
 							<div class="form-group">
@@ -80,6 +137,12 @@
 								<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
 									@Html.TextBoxFor(model => model.BitisTarihi, new { @class = "form-control datepicker", placeholder = "Bitiş Tarihi" })
 									@Html.ValidationMessageFor(model => model.BitisTarihi, "", new { @class = "text-danger" })
+								</div>
+							</div>
+							<div class="form-group">
+								@Html.LabelFor(model => model.Durum, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-2 col-xs-2" })
+								<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+									@Html.DropDownListFor(model => model.Durum, projeDurumu, new { @class = "form-control", placeholder = "Durum" })
 								</div>
 							</div>
 							<div class="form-group">

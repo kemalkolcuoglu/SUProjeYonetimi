@@ -239,7 +239,7 @@ namespace SUTFProjeYonetimi.Controllers
 		[OgrenciFilter]
 		public ActionResult DanismanDegisiklikTalebi()
 		{
-			ViewData["Danismanlar"] = SLOlusturma.AkademisyenListele();
+			ViewData["Danismanlar"] = SLOlusturma.AkademisyenListele(AnlikOturum.Kullanici.Ogrenci.FakulteID, AnlikOturum.Kullanici.Ogrenci.BolumID);
 			return View();
 		}
 
@@ -254,7 +254,7 @@ namespace SUTFProjeYonetimi.Controllers
 			{
 				// TODO : Uygun Model Hazırlanacak
 			}
-			ViewData["Danismanlar"] = SLOlusturma.AkademisyenListele();
+			ViewData["Danismanlar"] = SLOlusturma.AkademisyenListele(AnlikOturum.Kullanici.Ogrenci.FakulteID, AnlikOturum.Kullanici.Ogrenci.BolumID);
 			return View(danisman);
 		}
 

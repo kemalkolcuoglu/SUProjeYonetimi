@@ -2,9 +2,9 @@
 {
 	public class Kullanici
 	{
-		public Ogrenci Ogrenci;
-		public Akademisyen Akademisyen;
-		public int Yetki;
+		public Ogrenci Ogrenci { get; set; }
+		public Akademisyen Akademisyen { get; set; }
+		public int Yetki { get; set; }
 
 		//public int ID { get; set; }
 		//public int Yetki { get; set; }

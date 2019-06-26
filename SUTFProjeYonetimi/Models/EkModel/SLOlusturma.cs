@@ -1,4 +1,5 @@
 ﻿using SUTFProjeYonetimi.Models.Enum;
+using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using static SUTFProjeYonetimi.App_Start.Tanimlamalar;
@@ -7,59 +8,48 @@ namespace SUTFProjeYonetimi.Models.EkModel
 {
 	public static class SLOlusturma
 	{
-		public static SelectList EklenecekKullaniciListele()
+		public static SelectList AkademisyenListele(int fakulte, int bolum)
 		{
 			List<SelectListItem> list = new List<SelectListItem>();
+			List<Akademisyen> akademisyenler;
 
-			foreach (var item in akademisyenIslemleri.VeriGetir("Silindi = 0 And Etkin = 1"))
+			if (fakulte == 0 && bolum == 0)
+				akademisyenler = akademisyenIslemleri.VeriGetir("Silindi = 0 And Etkin = 1 And Yetki != 0");
+			else if (fakulte != 0 && bolum == 0)
+				akademisyenler = akademisyenIslemleri.VeriGetir("Silindi = 0 And Etkin = 1 And Yetki != 0 And FakulteID = " + fakulte);
+			else
+				akademisyenler = akademisyenIslemleri.VeriGetir("Silindi = 0 And Etkin = 1 And Yetki != 0 And FakulteID = " + fakulte + " And BolumID = " + bolum);
+
+			foreach (var item in akademisyenler)
 			{
 				SelectListItem sli = new SelectListItem()
 				{
-					Text = item.Ad + " " + item.Soyad,
+					Text = item.Unvan + " " + item.Ad + " " + item.Soyad,
 					Value = item.ID.ToString()
 				};
 
 				list.Add(sli);
 			}
-			foreach (var item in ogrenciIslemleri.VeriGetir("Silindi = 0 And Etkin = 1"))
+			return new SelectList(list, "Value", "Text");
+		}
+
+		public static SelectList OgrenciListele(int fakulte, int bolum)
+		{
+			List<SelectListItem> list = new List<SelectListItem>();
+			List<Ogrenci> ogrenciler;
+
+			if (fakulte == 0 && bolum == 0)
+				ogrenciler = ogrenciIslemleri.VeriGetir("Silindi = 0 And Etkin = 1");
+			else if (fakulte == 0 && bolum != 0)
+				ogrenciler = ogrenciIslemleri.VeriGetir("Silindi = 0 And Etkin = 1 And FakulteID = " + fakulte);
+			else
+				ogrenciler = ogrenciIslemleri.VeriGetir("Silindi = 0 And Etkin = 1 And FakulteID = " + fakulte + " And BolumID = " + bolum);
+
+			foreach (var item in ogrenciler)
 			{
 				SelectListItem sli = new SelectListItem()
 				{
 					Text = item.OgrenciNo + "-" + item.Ad + " " + item.Soyad,
-					Value = item.ID.ToString()
-				};
-
-				list.Add(sli);
-			}
-			return new SelectList(list, "Value", "Text");
-		}
-
-		public static SelectList AkademisyenListele()
-		{
-			List<SelectListItem> list = new List<SelectListItem>();
-
-			foreach (var item in akademisyenIslemleri.VeriGetir("Silindi = 0 And Etkin = 1 And FakulteID = " + AnlikOturum.Kullanici.Akademisyen.FakulteID + " And BolumID = " + AnlikOturum.Kullanici.Akademisyen.BolumID))
-			{
-				SelectListItem sli = new SelectListItem()
-				{
-					Text = item.Ad + " " + item.Soyad,
-					Value = item.ID.ToString()
-				};
-
-				list.Add(sli);
-			}
-			return new SelectList(list, "Value", "Text");
-		}
-
-		public static SelectList OgrenciListele()
-		{
-			List<SelectListItem> list = new List<SelectListItem>();
-
-			foreach (var item in ogrenciIslemleri.VeriGetir("Silindi = 0 And Etkin = 1 And FakulteID = " + AnlikOturum.Kullanici.Akademisyen.FakulteID + " And BolumID = " + AnlikOturum.Kullanici.Akademisyen.BolumID))
-			{
-				SelectListItem sli = new SelectListItem()
-				{
-					Text =  item.OgrenciNo + "-" + item.Ad + " " + item.Soyad,
 					Value = item.ID.ToString()
 				};
 
@@ -156,11 +146,16 @@ namespace SUTFProjeYonetimi.Models.EkModel
 			return new SelectList(list, "Value", "Text");
 		}
 
-		public static SelectList ProjeTipiListele()
+		public static SelectList ProjeTipiListele(int fakulte)
 		{
 			List<SelectListItem> list = new List<SelectListItem>();
+			List<ProjeTipi> projeTipi;
+			if (fakulte == 0)
+				projeTipi = projeTipiIslemleri.VeriGetir("Etkin = 1 And Silindi = 0");
+			else
+				projeTipi = projeTipiIslemleri.VeriGetir("Etkin = 1 And Silindi = 0 And FakulteID = " + fakulte);
 
-			foreach (var item in projeTipiIslemleri.VeriGetir("Etkin = 1 And Silindi = 0 And FakulteID = " + AnlikOturum.Kullanici.Akademisyen.FakulteID))
+			foreach (var item in projeTipi)
 			{
 				SelectListItem sli = new SelectListItem()
 				{
@@ -238,6 +233,62 @@ namespace SUTFProjeYonetimi.Models.EkModel
 			list.Add(sli2);
 			list.Add(sli3);
 			list.Add(sli4);
+			return new SelectList(list, "Value", "Text");
+		}
+
+		public static SelectList ProjeDurumuListele()
+		{
+			List<SelectListItem> list = new List<SelectListItem>();
+			SelectListItem sli1 = new SelectListItem()
+			{
+				// ProjeDurumu.Beklemede
+				Text = ProjeDurumu.Beklemede.ToString(),
+				Value = Convert.ToInt32(ProjeDurumu.Beklemede).ToString()
+			};
+			SelectListItem sli2 = new SelectListItem()
+			{
+				// ProjeDurumu.DanismanOnayi
+				Text = "Danışman Onaylanan",
+				Value = Convert.ToInt32(ProjeDurumu.DanismanOnayi).ToString()
+			};
+			SelectListItem sli3 = new SelectListItem()
+			{
+				// ProjeDurumu.BaskanOnayi
+				Text = "Bölüm Başkanı Onaylanan",
+				Value = Convert.ToInt32(ProjeDurumu.BaskanOnayi).ToString()
+			};
+			SelectListItem sli4 = new SelectListItem()
+			{
+				// ProjeDurumu.Onaylandi
+				Text = "Onaylandı",
+				Value = Convert.ToInt32(ProjeDurumu.Onaylandi).ToString()
+			};
+			SelectListItem sli5 = new SelectListItem()
+			{
+				// ProjeDurumu.Reddedildi
+				Text = "Reddedildi",
+				Value = Convert.ToInt32(ProjeDurumu.Reddedildi).ToString()
+			};
+			SelectListItem sli6 = new SelectListItem()
+			{
+				// ProjeDurumu.AcikProje
+				Text = "Açık Proje",
+				Value = Convert.ToInt32(ProjeDurumu.AcikProje).ToString()
+			};
+			SelectListItem sli7 = new SelectListItem()
+			{
+				// ProjeDurumu.KapaliProje
+				Text = "Kapalı Proje",
+				Value = Convert.ToInt32(ProjeDurumu.KapaliProje).ToString()
+			};
+			list.Add(sli1);
+			list.Add(sli2);
+			list.Add(sli3);
+			list.Add(sli4);
+			list.Add(sli5);
+			list.Add(sli6);
+			list.Add(sli7);
+
 			return new SelectList(list, "Value", "Text");
 		}
 	}

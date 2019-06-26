@@ -158,8 +158,8 @@ namespace SUTFProjeYonetimi.Controllers
 
 		public ActionResult DanismanAtama()
 		{
-			ViewData["Akademisyenler"] = SLOlusturma.AkademisyenListele();
-			ViewData["Ogrenciler"] = SLOlusturma.OgrenciListele();
+			ViewData["Akademisyenler"] = SLOlusturma.AkademisyenListele(AnlikOturum.Kullanici.Akademisyen.FakulteID, AnlikOturum.Kullanici.Akademisyen.BolumID);
+			ViewData["Ogrenciler"] = SLOlusturma.OgrenciListele(AnlikOturum.Kullanici.Akademisyen.FakulteID, AnlikOturum.Kullanici.Akademisyen.BolumID);
 
 			return View();
 		}
@@ -176,8 +176,8 @@ namespace SUTFProjeYonetimi.Controllers
 				if (durum > 0)
 					return RedirectToAction(nameof(OgrenciDanismanListesi));
 			}
-			ViewData["Akademisyenler"] = SLOlusturma.AkademisyenListele();
-			ViewData["Ogrenciler"] = SLOlusturma.OgrenciListele();
+			ViewData["Akademisyenler"] = SLOlusturma.AkademisyenListele(AnlikOturum.Kullanici.Akademisyen.FakulteID, AnlikOturum.Kullanici.Akademisyen.BolumID);
+			ViewData["Ogrenciler"] = SLOlusturma.OgrenciListele(AnlikOturum.Kullanici.Akademisyen.FakulteID, AnlikOturum.Kullanici.Akademisyen.BolumID);
 			return View(ogrenciDanisman);
 		}
 
@@ -209,8 +209,8 @@ namespace SUTFProjeYonetimi.Controllers
 				if (durum > 0)
 					return RedirectToAction(nameof(OgrenciDanismanListesi));
 			}
-			ViewData["Akademisyenler"] = SLOlusturma.AkademisyenListele();
-			ViewData["Ogrenciler"] = SLOlusturma.OgrenciListele();
+			ViewData["Akademisyenler"] = SLOlusturma.AkademisyenListele(AnlikOturum.Kullanici.Akademisyen.FakulteID, AnlikOturum.Kullanici.Akademisyen.BolumID);
+			ViewData["Ogrenciler"] = SLOlusturma.OgrenciListele(AnlikOturum.Kullanici.Akademisyen.FakulteID, AnlikOturum.Kullanici.Akademisyen.BolumID);
 			return View("DanismanAtama", gelenOgrDan);
 		} 
 
