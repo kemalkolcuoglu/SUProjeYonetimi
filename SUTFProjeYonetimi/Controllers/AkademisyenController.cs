@@ -11,6 +11,7 @@ namespace SUTFProjeYonetimi.Controllers
 {
 	[AnlikOturumFilter]
 	[DanismanFilter]
+	[HataFilter]
 	public class AkademisyenController : Controller
 	{
 		public ActionResult Liste()

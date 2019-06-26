@@ -10,6 +10,7 @@ using static SUTFProjeYonetimi.App_Start.Tanimlamalar;
 
 namespace SUTFProjeYonetimi.Controllers
 {
+	[HataFilter]
 	[AnlikOturumFilter]
 	[DanismanFilter]
 	public class ProjeController : Controller

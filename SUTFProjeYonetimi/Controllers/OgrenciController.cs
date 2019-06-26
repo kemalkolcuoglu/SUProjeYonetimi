@@ -14,6 +14,7 @@ using static SUTFProjeYonetimi.App_Start.Tanimlamalar;
 namespace SUTFProjeYonetimi.Controllers
 {
 	[AnlikOturumFilter]
+	[HataFilter]
 	public class OgrenciController : Controller
 	{
 		#region CRUD Islemleri

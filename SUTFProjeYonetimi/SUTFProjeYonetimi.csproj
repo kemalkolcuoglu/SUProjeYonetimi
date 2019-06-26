@@ -116,6 +116,7 @@
     <Compile Include="Controllers\ProjeController.cs" />
     <Compile Include="Filters\AnlikOturumFilter.cs" />
     <Compile Include="Filters\DanismanFilter.cs" />
+    <Compile Include="Filters\HataFilter.cs" />
     <Compile Include="Filters\OgrenciFilter.cs" />
     <Compile Include="Filters\SysAdminFilter.cs" />
     <Compile Include="Global.asax.cs">
@@ -203,6 +204,7 @@
     <Content Include="Views\Panel\KullaniciSil.cshtml" />
     <Content Include="Views\Panel\KullaniciEkleDuzenle.cshtml" />
     <Content Include="Views\Panel\Kullanicilar.cshtml" />
+    <Content Include="Views\Panel\Hata.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

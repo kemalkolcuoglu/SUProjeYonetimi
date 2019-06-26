@@ -10,6 +10,7 @@ using SUTFProjeYonetimi.Models.ViewModel;
 
 namespace SUTFProjeYonetimi.Controllers
 {
+	[HataFilter]
 	public class PanelController : Controller
 	{
 		[AnlikOturumFilter]
@@ -46,6 +47,11 @@ namespace SUTFProjeYonetimi.Controllers
 				return HttpNotFound();
 
 			return View(duyuru);
+		}
+
+		public ActionResult Hata()
+		{
+			return View();
 		}
 
 		//[AnlikOturumFilter]

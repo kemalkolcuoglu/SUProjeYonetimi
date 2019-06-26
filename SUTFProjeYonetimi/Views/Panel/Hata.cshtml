@@ -1,0 +1,91 @@
+﻿@{
+	Layout = null;
+	ViewBag.Title = "Hata Oluştu";
+}
+
+<!DOCTYPE html>
+<html lang="tr-tr">
+<head>
+    <meta charset="utf-8">
+    <title>Proje Yönetim Otomasyonu - Hata</title>
+    <meta name="description" content="">
+	<meta name="robots" content="noindex" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" type="text/css" media="screen" href="~/Content/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="~/Content/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="~/Content/smartadmin-production-plugins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="~/Content/smartadmin-production.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="~/Content/smartadmin-skins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="~/Content/smartadmin-rtl.min.css">
+    <link rel="shortcut icon" href="img/favicon/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="img/favicon/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
+    <link rel="apple-touch-icon" href="img/splash/sptouch-icon-iphone.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="img/splash/touch-icon-ipad.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="img/splash/touch-icon-iphone-retina.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="img/splash/touch-icon-ipad-retina.png">
+</head>
+<body class="container">
+    <header id="header">
+        <div id="logo-group">
+            <span id="logo" style="margin-top:-8px"><a href="~/Panel/Anasayfa"> <img src="~/Images/logo-qr.png" alt="QRTedarik" style="width:150px"></a></span>
+        </div>
+    </header>
+    <div class="jarviswidget jarviswidget-color-darken">
+        <header>    </header>
+        <div>
+            <div class="jarviswidget-editbox"></div>
+            <div class="widget-body no-padding">
+                <div id="content">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="text-center error-box">
+                                        <h1 class="error-text tada animated"><i class="fa fa-times-circle text-danger error-icon-shadow"></i> Hata</h1>
+                                        <h2 class="font-xl"><strong>Hata Oluştu</strong></h2>
+                                        <br />
+                                        <p>
+                                            Hatasız bir sistem için çalışıyoruz. Lütfen bizimle iletişime geçerek hatayı düzeltmemize yardımcı olun!
+                                        </p>
+                                        @Html.ActionLink("Ana Sayfaya Git!", "Anasayfa", null, new { @class = "btn btn-primary" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-footer">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <span class="txt-color-white">QR Tedarik - Tüm Hakları Saklıdır © 2018</span>
+            </div>
+        </div>
+    </div>
+    <script data-pace-options='{ "restartOnRequestAfter": true }' src="~/Scripts/plugin/pace/pace.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        if (!window.jQuery) {
+            document.write('<script src="~/Scripts/libs/jquery-3.2.1.min.js"><\/script>');
+        }
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script>
+        if (!window.jQuery.ui) {
+            document.write('<script src="~/Scripts/libs/jquery-ui.min.js"><\/script>');
+        }
+    </script>
+    <script src="~/Scripts/app.config.js"></script>
+    <script src="~/Scripts/plugin/jquery-touch/jquery.ui.touch-punch.min.js"></script>
+    <script src="~/Scripts/bootstrap/bootstrap.min.js"></script>
+    <script src="~/Scripts/smartwidgets/jarvis.widget.min.js"></script>
+    <script src="~/Scripts/plugin/bootstrap-slider/bootstrap-slider.min.js"></script>
+    <script src="~/Scripts/plugin/msie-fix/jquery.mb.browser.min.js"></script>
+    <script src="~/Scripts/plugin/fastclick/fastclick.min.js"></script>
+    <script src="~/Scripts/app.min.js"></script>
+</body>
+</html>
